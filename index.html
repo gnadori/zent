@@ -2205,19 +2205,24 @@
         } catch (e) {}
       }
 
-      // Auto-load sample PDF if available
-      try {
-        const pdfRes = await fetch('minta_prezentacio.pdf');
-        if (pdfRes.ok) {
-          const ab = await pdfRes.arrayBuffer();
-          pdfRawData = ab.slice(0);
-          if (window.pdfjsLib) {
-            const loadingTask = pdfjsLib.getDocument({ data: ab });
-            pdfDoc = await loadingTask.promise;
-            document.getElementById('pdfStatusLabel').textContent = "minta_prezentacio.pdf (Minta)";
+      // Auto-load PDF if available (priority: presentation.pdf -> eloadas.pdf -> minta_prezentacio.pdf)
+      const pdfCandidates = ['presentation.pdf', 'eloadas.pdf', 'minta_prezentacio.pdf'];
+      for (const candidate of pdfCandidates) {
+        try {
+          const pdfRes = await fetch(candidate);
+          if (pdfRes.ok) {
+            const ab = await pdfRes.arrayBuffer();
+            pdfRawData = ab.slice(0);
+            if (window.pdfjsLib) {
+              const loadingTask = pdfjsLib.getDocument({ data: ab });
+              pdfDoc = await loadingTask.promise;
+              document.getElementById('pdfStatusLabel').textContent = candidate;
+              renderSlidePreviews();
+              break;
+            }
           }
-        }
-      } catch (e) {}
+        } catch (e) {}
+      }
 
       renderEditor();
       updatePresenterUI();
