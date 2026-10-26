@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kivetítő – Prezentáció</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      background-color: #0b0f19;
+      color: #f1f5f9;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+    #container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    canvas {
+      max-width: 100%;
+      max-height: 100%;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+      display: block;
+    }
+    .fallback-card {
+      text-align: center;
+      max-width: 800px;
+      padding: 40px;
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      animation: fadeIn 0.4s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-badge {
+      display: inline-block;
+      background: #3b82f6;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .slide-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 16px;
+      color: #ffffff;
+    }
+    .pres-title {
+      font-size: 1.2rem;
+      color: #94a3b8;
+    }
+    .blank-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: 100;
+      display: none;
+    }
+    .blank-overlay.active {
+      display: block;
+    }
+    .fullscreen-hint {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.5);
+      color: #94a3b8;
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    body:hover .fullscreen-hint {
+      opacity: 1;
+    }
+  </style>
+  <script src="assets/pdf.min.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="fallback" class="fallback-card">
+      <div id="slideBadge" class="slide-badge">1. Dia</div>
+      <h1 id="slideTitle" class="slide-title">Prezentáció készenlétben</h1>
+      <p id="presTitle" class="pres-title">A laptopon indítsd el a vetítést</p>
+    </div>
+    <canvas id="pdfCanvas" style="display: none;"></canvas>
+    <div id="blankOverlay" class="blank-overlay"></div>
+    <div class="fullscreen-hint">Dupla kattintás vagy F11: Teljes képernyő</div>
+  </div>
+
+  <script>
+    if (window.pdfjsLib) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'assets/pdf.worker.min.js';
+    }
+
+    const channel = new BroadcastChannel('zent_presenter_channel');
+    const canvas = document.getElementById('pdfCanvas');
+    const ctx = canvas.getContext('2d');
+    const fallback = document.getElementById('fallback');
+    const slideBadge = document.getElementById('slideBadge');
+    const slideTitle = document.getElementById('slideTitle');
+    const presTitle = document.getElementById('presTitle');
+    const blankOverlay = document.getElementById('blankOverlay');
+
+    let pdfDoc = null;
+    let currentSlide = 1;
+    let currentRenderTask = null;
+
+    // Fullscreen on double click
+    document.addEventListener('dblclick', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    });
+
+    async function renderPage(pageNum) {
+      if (!pdfDoc) {
+        canvas.style.display = 'none';
+        fallback.style.display = 'block';
+        return;
+      }
+      if (pageNum < 1 || pageNum > pdfDoc.numPages) return;
+
+      try {
+        if (currentRenderTask) {
+          currentRenderTask.cancel();
+        }
+      } catch (e) {}
+
+      try {
+        const page = await pdfDoc.getPage(pageNum);
+        fallback.style.display = 'none';
+        canvas.style.display = 'block';
+
+        const containerWidth = window.innerWidth;
+        const containerHeight = window.innerHeight;
+
+        const unscaledViewport = page.getViewport({ scale: 1 });
+        const scaleX = containerWidth / unscaledViewport.width;
+        const scaleY = containerHeight / unscaledViewport.height;
+        const scale = Math.min(scaleX, scaleY);
+
+        const dpr = window.devicePixelRatio || 1;
+        const viewport = page.getViewport({ scale: scale });
+
+        canvas.width = Math.floor(viewport.width * dpr);
+        canvas.height = Math.floor(viewport.height * dpr);
+        canvas.style.width = Math.floor(viewport.width) + 'px';
+        canvas.style.height = Math.floor(viewport.height) + 'px';
+
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const renderContext = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+        currentRenderTask = page.render(renderContext);
+        await currentRenderTask.promise;
+        currentRenderTask = null;
+      } catch (err) {
+        if (err.name !== 'RenderingCancelledException') {
+          console.error("Hiba a dia kirajzolásakor:", err);
+        }
+      }
+    }
+
+    async function loadPdfData(pdfData) {
+      try {
+        if (!window.pdfjsLib) return;
+        const loadingTask = pdfjsLib.getDocument({ data: pdfData });
+        pdfDoc = await loadingTask.promise;
+        renderPage(currentSlide);
+      } catch (err) {
+        console.error("PDF betöltési hiba:", err);
+      }
+    }
+
+    function handleStateUpdate(data) {
+      if (data.title) {
+        presTitle.textContent = data.title;
+      }
+      if (data.slideTitle) {
+        slideTitle.textContent = data.slideTitle;
+      }
+      if (data.slide) {
+        currentSlide = data.slide;
+        slideBadge.textContent = `${data.slide}. Dia`;
+        if (pdfDoc) {
+          renderPage(currentSlide);
+        }
+      }
+      if (typeof data.blank !== 'undefined') {
+        blankOverlay.classList.toggle('active', data.blank);
+      }
+    }
+
+    // BroadcastChannel messages
+    channel.onmessage = (event) => {
+      const msg = event.data;
+      if (!msg) return;
+
+      if (msg.type === 'STATE_UPDATE') {
+        handleStateUpdate(msg);
+      } else if (msg.type === 'LOAD_PDF') {
+        loadPdfData(msg.pdfData);
+      } else if (msg.type === 'GOTO_PAGE') {
+        currentSlide = msg.page;
+        slideBadge.textContent = `${currentSlide}. Dia`;
+        renderPage(currentSlide);
+      } else if (msg.type === 'PING') {
+        channel.postMessage({ type: 'PONG' });
+      }
+    };
+
+    // Direct window.postMessage
+    window.addEventListener('message', (event) => {
+      const msg = event.data;
+      if (!msg) return;
+      if (msg.type === 'STATE_UPDATE') {
+        handleStateUpdate(msg);
+      } else if (msg.type === 'LOAD_PDF') {
+        loadPdfData(msg.pdfData);
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (pdfDoc) {
+        renderPage(currentSlide);
+      }
+    });
+
+    // Announce projector is ready
+    channel.postMessage({ type: 'PROJECTOR_READY' });
+  </script>
+</body>
+</html>
