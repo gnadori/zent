@@ -1347,6 +1347,7 @@
       // Update Agenda List
       renderAgendaList();
       renderTimer();
+      renderSlidePreviews();
     }
 
     function renderAgendaList() {
@@ -1381,52 +1382,124 @@
     }
 
     // ----------------------------------------------------
-    // PDF RENDERING FOR SPEAKER PREVIEWS
+    // PDF & FALLBACK RENDERING FOR SPEAKER PREVIEWS
     // ----------------------------------------------------
+    let thumbRenderTasks = {};
+    let lastRenderedCurrentSlide = -1;
+    let lastRenderedNextSlide = -1;
+
     async function renderSlidePreviews() {
+      const curSec = presentation.sections[currentSectionIdx];
+      const curSlideNum = curSec ? (parseInt(curSec.slide, 10) || 1) : 1;
+      
+      let nextSec = null;
+      let nextSlideNum = -1;
+      if (currentSectionIdx < presentation.sections.length - 1) {
+        nextSec = presentation.sections[currentSectionIdx + 1];
+        nextSlideNum = nextSec ? (parseInt(nextSec.slide, 10) || (curSlideNum + 1)) : -1;
+      }
+
+      // 1. IF NO PDF IS ATTACHED: Render informative mini cards that match the projector!
       if (!pdfDoc) {
-        document.getElementById('currentSlidePlaceholder').style.display = 'block';
-        document.getElementById('nextSlidePlaceholder').style.display = 'block';
         document.getElementById('currentSlideCanvas').style.display = 'none';
         document.getElementById('nextSlideCanvas').style.display = 'none';
+        
+        const curPh = document.getElementById('currentSlidePlaceholder');
+        curPh.style.display = 'flex';
+        curPh.style.flexDirection = 'column';
+        curPh.style.alignItems = 'center';
+        curPh.style.justifyContent = 'center';
+        curPh.innerHTML = `
+          <div style="background: rgba(59, 130, 246, 0.2); border: 1px solid #3b82f6; border-radius: 8px; padding: 12px 16px; width: 85%; text-align: center;">
+            <div style="font-size: 0.8rem; font-weight: 800; color: #60a5fa; text-transform: uppercase; margin-bottom: 4px;">${curSlideNum}. DIA</div>
+            <div style="font-size: 0.95rem; font-weight: 700; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${curSec ? (curSec.title || 'Névtelen dia') : ''}</div>
+          </div>
+        `;
+        document.getElementById('currentSlideNum').textContent = `${curSlideNum} / ${presentation.sections.length}`;
+
+        const nextPh = document.getElementById('nextSlidePlaceholder');
+        nextPh.style.display = 'flex';
+        nextPh.style.flexDirection = 'column';
+        nextPh.style.alignItems = 'center';
+        nextPh.style.justifyContent = 'center';
+        if (nextSec) {
+          nextPh.innerHTML = `
+            <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 8px; padding: 12px 16px; width: 85%; text-align: center;">
+              <div style="font-size: 0.8rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 4px;">${nextSlideNum}. DIA</div>
+              <div style="font-size: 0.95rem; font-weight: 700; color: #cbd5e1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${nextSec.title || 'Névtelen dia'}</div>
+            </div>
+          `;
+          document.getElementById('nextSlideNum').textContent = `${nextSlideNum} / ${presentation.sections.length}`;
+        } else {
+          nextPh.innerHTML = `<span style="color: #64748b; font-size: 0.85rem;">Prezentáció vége</span>`;
+          document.getElementById('nextSlideNum').textContent = `-`;
+        }
         return;
       }
 
+      // 2. IF PDF IS ATTACHED: Render the actual PDF pages to canvases
       document.getElementById('currentSlidePlaceholder').style.display = 'none';
       document.getElementById('nextSlidePlaceholder').style.display = 'none';
       document.getElementById('currentSlideCanvas').style.display = 'block';
-      document.getElementById('nextSlideCanvas').style.display = 'block';
-
-      const curSec = presentation.sections[currentSectionIdx];
-      const curSlideNum = curSec ? curSec.slide : 1;
       document.getElementById('currentSlideNum').textContent = `${curSlideNum} / ${pdfDoc.numPages}`;
 
       await renderThumb(curSlideNum, 'currentSlideCanvas');
 
-      if (currentSectionIdx < presentation.sections.length - 1) {
-        const nextSec = presentation.sections[currentSectionIdx + 1];
-        document.getElementById('nextSlideNum').textContent = `${nextSec.slide} / ${pdfDoc.numPages}`;
-        await renderThumb(nextSec.slide, 'nextSlideCanvas');
+      if (nextSec && nextSlideNum >= 1 && nextSlideNum <= pdfDoc.numPages) {
+        document.getElementById('nextSlidePlaceholder').style.display = 'none';
+        document.getElementById('nextSlideCanvas').style.display = 'block';
+        document.getElementById('nextSlideNum').textContent = `${nextSlideNum} / ${pdfDoc.numPages}`;
+        await renderThumb(nextSlideNum, 'nextSlideCanvas');
       } else {
-        document.getElementById('nextSlideNum').textContent = `-`;
         document.getElementById('nextSlideCanvas').style.display = 'none';
-        document.getElementById('nextSlidePlaceholder').style.display = 'block';
-        document.getElementById('nextSlidePlaceholder').textContent = 'Prezentáció vége';
+        const nextPh = document.getElementById('nextSlidePlaceholder');
+        nextPh.style.display = 'flex';
+        nextPh.style.alignItems = 'center';
+        nextPh.style.justifyContent = 'center';
+        nextPh.textContent = 'Prezentáció vége';
+        document.getElementById('nextSlideNum').textContent = `-`;
       }
     }
 
     async function renderThumb(pageNum, canvasId) {
-      if (!pdfDoc || pageNum < 1 || pageNum > pdfDoc.numPages) return;
+      pageNum = parseInt(pageNum, 10);
+      if (!pdfDoc || isNaN(pageNum) || pageNum < 1 || pageNum > pdfDoc.numPages) return;
+
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+
+      // Cancel any ongoing render task on this specific canvas to prevent PDF.js overlap collision
+      if (thumbRenderTasks[canvasId]) {
+        try {
+          thumbRenderTasks[canvasId].cancel();
+        } catch (e) {}
+        thumbRenderTasks[canvasId] = null;
+      }
+
       try {
         const page = await pdfDoc.getPage(pageNum);
-        const canvas = document.getElementById(canvasId);
         const ctx = canvas.getContext('2d');
-        const viewport = page.getViewport({ scale: 0.5 });
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-        await page.render({ canvasContext: ctx, viewport: viewport }).promise;
-      } catch (e) {
-        console.error("Preview render error:", e);
+
+        // Dynamically compute optimal viewport scale based on container size
+        const containerWidth = canvas.parentElement ? (canvas.parentElement.clientWidth || 320) : 320;
+        const unscaledViewport = page.getViewport({ scale: 1.0 });
+        const scale = Math.max(0.2, (containerWidth * 1.2) / unscaledViewport.width);
+        const viewport = page.getViewport({ scale: scale });
+
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
+
+        const renderTask = page.render({
+          canvasContext: ctx,
+          viewport: viewport
+        });
+        thumbRenderTasks[canvasId] = renderTask;
+        await renderTask.promise;
+        thumbRenderTasks[canvasId] = null;
+      } catch (err) {
+        if (err.name !== 'RenderingCancelledException') {
+          console.error("Preview render hiba:", err);
+        }
       }
     }
 
