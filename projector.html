@@ -209,14 +209,14 @@
 
     function handleStateUpdate(data) {
       if (data.title) {
-        presTitle.textContent = data.title;
+        presTitle.textContent = data.sectionTitle ? `${data.title} • ${data.sectionTitle}` : data.title;
       }
       if (data.slideTitle) {
         slideTitle.textContent = data.slideTitle;
       }
       if (data.slide) {
-        currentSlide = data.slide;
-        slideBadge.textContent = `${data.slide}. Dia`;
+        currentSlide = parseInt(data.slide, 10) || 1;
+        slideBadge.textContent = `${currentSlide}. Dia`;
         if (pdfDoc) {
           renderPage(currentSlide);
         }

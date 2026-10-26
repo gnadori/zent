@@ -6,7 +6,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
 endobj
 3 0 obj
-<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R 10 0 R] /Count 4 >>
+<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R] /Count 5 >>
 endobj
 4 0 obj
 << /Type /Page /Parent 3 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 2 0 R >> >> /Contents 5 0 R >>
@@ -36,6 +36,30 @@ endobj
 << /Type /Page /Parent 3 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 2 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
+<< /Length 321 >>
+stream
+q
+        0.2 0.3 0.5 rg
+        0 0 960 540 re f
+        1 1 1 rg
+        BT
+        /F1 24 Tf
+        80 440 Td
+        (2. Dia) Tj
+        /F1 44 Tf
+        0 -70 Td
+        (Miert nehez az idozites?) Tj
+        /F1 22 Tf
+        0 -50 Td
+        (A 80 szazalekos csuszas es a mentalis stopper) Tj
+        ET
+        Q
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 2 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
 << /Length 319 >>
 stream
 q
@@ -45,7 +69,7 @@ q
         BT
         /F1 24 Tf
         80 440 Td
-        (2. Dia) Tj
+        (3. Dia) Tj
         /F1 44 Tf
         0 -70 Td
         (A digitalis figyelemhiany mitosza) Tj
@@ -56,10 +80,10 @@ q
         Q
 endstream
 endobj
-8 0 obj
-<< /Type /Page /Parent 3 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 2 0 R >> >> /Contents 9 0 R >>
+10 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 2 0 R >> >> /Contents 11 0 R >>
 endobj
-9 0 obj
+11 0 obj
 << /Length 308 >>
 stream
 q
@@ -69,7 +93,7 @@ q
         BT
         /F1 24 Tf
         80 440 Td
-        (3. Dia) Tj
+        (4. Dia) Tj
         /F1 44 Tf
         0 -70 Td
         (Idozites es dramaturgia) Tj
@@ -80,10 +104,10 @@ q
         Q
 endstream
 endobj
-10 0 obj
-<< /Type /Page /Parent 3 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 2 0 R >> >> /Contents 11 0 R >>
+12 0 obj
+<< /Type /Page /Parent 3 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 2 0 R >> >> /Contents 13 0 R >>
 endobj
-11 0 obj
+13 0 obj
 << /Length 307 >>
 stream
 q
@@ -93,33 +117,35 @@ q
         BT
         /F1 24 Tf
         80 440 Td
-        (4. Dia) Tj
+        (5. Dia) Tj
         /F1 44 Tf
         0 -70 Td
-        (Osszegzes es konkluzio) Tj
+        (Osszegzes es kerdesek) Tj
         /F1 22 Tf
         0 -50 Td
-        (Gyakorlati tanulsagok es kerdesek) Tj
+        (Gyakorlati tanulsagok es konkluzio) Tj
         ET
         Q
 endstream
 endobj
 xref
-0 12
+0 14
 0000000000 65535 f 
 0000000009 00000 n 
 0000000058 00000 n 
 0000000133 00000 n 
-0000000209 00000 n 
-0000000335 00000 n 
-0000000688 00000 n 
-0000000814 00000 n 
-0000001184 00000 n 
-0000001310 00000 n 
-0000001669 00000 n 
-0000001797 00000 n 
+0000000216 00000 n 
+0000000342 00000 n 
+0000000695 00000 n 
+0000000821 00000 n 
+0000001193 00000 n 
+0000001319 00000 n 
+0000001689 00000 n 
+0000001817 00000 n 
+0000002177 00000 n 
+0000002305 00000 n 
 trailer
-<< /Size 12 /Root 1 0 R >>
+<< /Size 14 /Root 1 0 R >>
 startxref
-2156
+2664
 %%EOF

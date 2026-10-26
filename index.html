@@ -238,6 +238,8 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 8px;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     .section-badge-info {
@@ -249,13 +251,30 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .section-badge-pill {
+      background: #1e293b;
+      color: #38bdf8;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 800;
+    }
+
+    .slides-count-pill {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--green);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 800;
+      border: 1px solid rgba(16, 185, 129, 0.3);
     }
 
     .section-title-display {
       font-size: 1.4rem;
       font-weight: 800;
       color: #fff;
-      margin-bottom: 12px;
     }
 
     .timer-main-row {
@@ -264,6 +283,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 16px;
+      margin-top: 10px;
     }
 
     .timer-clock {
@@ -286,9 +306,9 @@
     }
 
     .timer-status-text {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 700;
-      padding: 4px 12px;
+      padding: 5px 14px;
       border-radius: 9999px;
     }
     .timer-status-text.green {
@@ -357,6 +377,8 @@
       margin-bottom: 20px;
       border-bottom: 1px solid var(--card-border);
       padding-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .cue-indicator {
@@ -399,7 +421,7 @@
       transition: font-size 0.2s;
     }
 
-    /* Block Timeline / All Cues in Current Section */
+    /* Block Timeline / All Cues on current slide */
     .block-cues-list {
       margin-top: 20px;
       display: flex;
@@ -546,49 +568,66 @@
       font-size: 0.85rem;
       text-align: center;
       padding: 10px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .agenda-list {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      max-height: 380px;
+      gap: 8px;
+      max-height: 420px;
       overflow-y: auto;
     }
 
-    .agenda-item {
-      padding: 8px 12px;
-      border-radius: 8px;
+    .agenda-section-group {
       background: #0f172a;
-      cursor: pointer;
+      border-radius: 8px;
+      border: 1px solid #1e293b;
+      overflow: hidden;
+    }
+
+    .agenda-section-header {
+      padding: 8px 12px;
+      background: #1e293b;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #38bdf8;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.85rem;
-      border: 1px solid transparent;
-      transition: all 0.15s;
+      cursor: pointer;
     }
 
-    .agenda-item:hover {
-      background: #1e293b;
+    .agenda-section-header.active {
+      background: rgba(56, 189, 248, 0.2);
+      color: #fff;
     }
 
-    .agenda-item.active {
-      border-color: var(--primary);
-      background: rgba(59, 130, 246, 0.15);
+    .agenda-slide-item {
+      padding: 6px 12px 6px 20px;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      border-top: 1px solid #1e293b;
+    }
+
+    .agenda-slide-item:hover {
+      background: #162032;
+      color: #fff;
+    }
+
+    .agenda-slide-item.active {
+      background: rgba(59, 130, 246, 0.25);
       color: #fff;
       font-weight: 700;
-    }
-
-    .agenda-item.past {
-      opacity: 0.6;
-    }
-
-    .agenda-title {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 200px;
+      border-left: 3px solid var(--primary);
     }
 
     /* Keymap Helper Bar */
@@ -611,10 +650,10 @@
     }
 
     /* ===================================================
-       EDITOR VIEW STYLES
+       EDITOR VIEW STYLES (SECTIONS -> SLIDES -> CUES)
        =================================================== */
     .editor-container {
-      max-width: 1000px;
+      max-width: 1050px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
@@ -635,12 +674,13 @@
 
     .editor-section-card {
       background: var(--card-bg);
-      border: 1px solid var(--card-border);
+      border: 1px solid #334155;
+      border-left: 4px solid var(--primary);
       border-radius: 14px;
       padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
       position: relative;
     }
 
@@ -649,6 +689,28 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 14px;
+    }
+
+    .editor-slide-card {
+      background: #0b0f19;
+      border: 1px solid #1e293b;
+      border-left: 3px solid #38bdf8;
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-left: 14px;
+    }
+
+    .slide-row-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
@@ -680,34 +742,34 @@
       border-color: var(--primary);
     }
 
-    .section-cues-editor {
-      background: #0b0f19;
-      border-radius: 10px;
-      padding: 14px;
+    .slide-cues-editor {
+      background: #131c2e;
+      border-radius: 8px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       border: 1px solid #1e293b;
     }
 
     .cue-edit-row {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .cue-edit-row textarea {
       flex: 1;
       resize: vertical;
-      min-height: 44px;
+      min-height: 40px;
     }
 
     .btn-icon {
       background: #1e293b;
       border: 1px solid #334155;
       color: #94a3b8;
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       border-radius: 6px;
       display: inline-flex;
       align-items: center;
@@ -742,7 +804,7 @@
       border: 1px solid #334155;
       border-radius: 16px;
       width: 100%;
-      max-width: 800px;
+      max-width: 850px;
       max-height: 85vh;
       display: flex;
       flex-direction: column;
@@ -777,7 +839,7 @@
   <header>
     <div class="brand">
       <span>⏱️ Zent Presenter</span>
-      <span class="brand-badge">Pacer & Prompter</span>
+      <span class="brand-badge">Szekció & Dia Pacer</span>
     </div>
 
     <div class="nav-tabs">
@@ -806,27 +868,30 @@
          ============================================== -->
     <div id="viewPresenter" class="view-container active">
       <div class="presenter-grid">
-        <!-- Bal oszlop: Időzítő + Nagy idézet / Prompter -->
+        <!-- Bal oszlop: Szekció Időzítő + Nagy idézet / Prompter -->
         <div class="prompter-column">
-          <!-- Időzítő blokk -->
+          <!-- Szekció Időzítő blokk -->
           <div id="timerCard" class="timer-card on-track">
             <div class="timer-header">
               <div class="section-badge-info">
-                <span id="currentSlideBadge">1. DIA</span>
+                <span id="currentSectionBadge" class="section-badge-pill">1. SZEKCIÓ / 3</span>
                 <span>•</span>
-                <span id="currentCueBadge">1. IDÉZET / 3</span>
+                <span id="sectionSlideRemainingBadge" class="slides-count-pill">1 / 2 DIA A SZEKCIÓBAN (1 HÁTRA)</span>
               </div>
               <div class="global-pace-badge">
-                <span>Összesített előadás</span>
-                <span id="globalPaceText" class="global-pace-val">00:00 / 08:30 (00:00)</span>
+                <span>Összesített előadás-idő</span>
+                <span id="globalPaceText" class="global-pace-val">00:00 / 13:00 (00:00)</span>
               </div>
             </div>
 
-            <div id="sectionTitleDisplay" class="section-title-display">Szakasz címe</div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 4px; flex-wrap: wrap;">
+              <div id="sectionTitleDisplay" class="section-title-display">Szekció címe</div>
+              <div id="currentSlideGlobalBadge" style="font-size: 0.95rem; font-weight: 700; color: #cbd5e1; background: #1e293b; border: 1px solid #334155; padding: 4px 10px; border-radius: 6px;">1. Dia: Bevezetés</div>
+            </div>
 
             <div class="timer-main-row">
-              <div class="timer-clock green" id="sectionClock">01:30</div>
-              <div id="timerStatusPill" class="timer-status-text green">IDŐBEN VAGY</div>
+              <div class="timer-clock green" id="sectionClock">04:00</div>
+              <div id="timerStatusPill" class="timer-status-text green">SZEKCIÓBÓL HÁTRA</div>
             </div>
 
             <div class="progress-track">
@@ -838,7 +903,7 @@
           <div class="prompter-card">
             <div>
               <div class="prompter-toolbar">
-                <span id="prompterCueIndicator" class="cue-indicator">Aktuális mondat / Idézet</span>
+                <span id="currentCueBadge" class="cue-indicator">1. Idézet / 3 ezen a dián</span>
                 <div class="font-ctrls">
                   <button class="font-btn" onclick="adjustFontSize(-0.15)">A-</button>
                   <button class="font-btn" onclick="adjustFontSize(0.15)">A+</button>
@@ -893,6 +958,7 @@
             <span><span class="kbd">PageDown</span> / <span class="kbd">→</span> / <span class="kbd">Szóköz</span> Következő idézet vagy dia</span>
             <span><span class="kbd">PageUp</span> / <span class="kbd">←</span> Előző</span>
             <span><span class="kbd">P</span> Időzítő szünet</span>
+            <span><span class="kbd">R</span> Szekció újra</span>
             <span><span class="kbd">B</span> Kivetítő elsötétítés</span>
           </div>
         </div>
@@ -907,7 +973,7 @@
             </div>
             <div class="slide-preview-frame">
               <canvas id="currentSlideCanvas"></canvas>
-              <div id="currentSlidePlaceholder" class="slide-preview-placeholder">Nincs PDF csatolva<br>(Szöveges kártya vetül)</div>
+              <div id="currentSlidePlaceholder" class="slide-preview-placeholder"></div>
             </div>
           </div>
 
@@ -923,10 +989,10 @@
             </div>
           </div>
 
-          <!-- Szakaszok / Vázlat jegyzék -->
+          <!-- Szekciók és Diák vázlatjegyzéke -->
           <div class="sidebar-card" style="flex: 1;">
             <div class="sidebar-title">
-              <span>Forgatókönyv szakaszok</span>
+              <span>Forgatókönyv vázlat</span>
             </div>
             <div id="agendaList" class="agenda-list">
               <!-- Dynamically populated -->
@@ -961,26 +1027,28 @@
         </div>
 
         <!-- Alapadatok -->
-        <div class="editor-section-card">
+        <div class="editor-section-card" style="border-left-color: #8b5cf6;">
           <div class="input-group" style="width: 100%;">
             <label style="min-width: 140px;">Előadás címe:</label>
-            <input type="text" id="presTitleInput" style="flex: 1;" placeholder="pl. A jövő oktatása" oninput="updatePresTitle(this.value)">
+            <input type="text" id="presTitleInput" style="flex: 1;" placeholder="pl. A hatékony előadás művészete" oninput="updatePresTitle(this.value)">
           </div>
-          <div style="display: flex; gap: 20px; font-size: 0.85rem; color: var(--text-muted);">
+          <div style="display: flex; gap: 20px; font-size: 0.85rem; color: var(--text-muted); flex-wrap: wrap;">
             <div>Csatolt PDF: <strong id="pdfStatusLabel" style="color: #fff;">Nincs kiválasztva</strong></div>
+            <div>Szekciók: <strong id="totalSectionsCountLabel" style="color: #38bdf8;">0 db</strong></div>
+            <div>Összes dia: <strong id="totalSlidesCountLabel" style="color: #cbd5e1;">0 db</strong></div>
             <div>Összes tervezett idő: <strong id="totalPlannedTimeLabel" style="color: var(--green);">00:00</strong></div>
           </div>
         </div>
 
-        <!-- Szakaszok listája -->
-        <div id="editorSectionsList" style="display: flex; flex-direction: column; gap: 16px;">
+        <!-- Szekciók hierarchikus listája -->
+        <div id="editorSectionsList" style="display: flex; flex-direction: column; gap: 20px;">
           <!-- Dynamically populated -->
         </div>
 
-        <!-- Szakasz hozzáadás -->
+        <!-- Új szekció hozzáadása -->
         <div style="text-align: center; margin-top: 10px;">
-          <button class="btn btn-secondary" style="padding: 12px 24px; font-size: 1rem;" onclick="addNewSection()">
-            ➕ Új szakasz / Dia hozzáadása
+          <button class="btn btn-secondary" style="padding: 14px 28px; font-size: 1.05rem;" onclick="addNewSection()">
+            ➕ Új Szekció hozzáadása
           </button>
         </div>
       </div>
@@ -995,7 +1063,7 @@
         <button class="btn-icon" onclick="closeRawJsonModal()">✕</button>
       </div>
       <div class="modal-body">
-        <textarea id="rawJsonTextarea" style="width: 100%; height: 400px; font-family: monospace; font-size: 0.85rem;"></textarea>
+        <textarea id="rawJsonTextarea" style="width: 100%; height: 420px; font-family: monospace; font-size: 0.85rem;"></textarea>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" onclick="closeRawJsonModal()">Mégse</button>
@@ -1005,34 +1073,38 @@
   </div>
 
   <script>
-    // Initialize PDF.js worker
     if (window.pdfjsLib) {
       pdfjsLib.GlobalWorkerOptions.workerSrc = 'assets/pdf.worker.min.js';
     }
 
-    // BroadcastChannel for cross-window communication
     const channel = new BroadcastChannel('zent_presenter_channel');
     let projectorWindowRef = null;
     let projectorIsConnected = false;
 
-    // Presentation Data Model
+    // Presentation Data Model (Sections -> Slides -> Cues)
     let presentation = {
       title: "Új prezentáció",
       sections: [
         {
-          slide: 1,
           title: "Bevezetés",
-          target_seconds: 90,
-          cues: [
-            "Köszönteni a hallgatóságot.",
-            "Rövid felvezetés a témáról."
+          target_seconds: 300,
+          slides: [
+            {
+              slide: 1,
+              title: "Köszöntés",
+              cues: [
+                "Köszönteni a résztvevőket.",
+                "Rövid felvezetés a mai témáról."
+              ]
+            }
           ]
         }
       ]
     };
 
-    // State Variables
+    // State Variables (Section, Slide, Cue)
     let currentSectionIdx = 0;
+    let currentSlideIdx = 0;
     let currentCueIdx = 0;
     let fontScale = 1;
     let isPaused = false;
@@ -1042,7 +1114,7 @@
     let pdfDoc = null;
     let pdfRawData = null;
 
-    // Timing Engine
+    // Timing Engine (Section elapsed + Total elapsed)
     let sectionElapsedSeconds = 0;
     let totalElapsedSeconds = 0;
     let timerInterval = null;
@@ -1077,13 +1149,22 @@
       }, 800);
     }
 
+    function getCurrentSlideObj() {
+      const sec = presentation.sections[currentSectionIdx];
+      if (!sec || !sec.slides || sec.slides.length === 0) return null;
+      return sec.slides[currentSlideIdx] || null;
+    }
+
     function syncToProjector() {
-      const currentSec = presentation.sections[currentSectionIdx];
+      const curSec = presentation.sections[currentSectionIdx];
+      const curSlide = getCurrentSlideObj();
+
       const payload = {
         type: 'STATE_UPDATE',
         title: presentation.title,
-        slide: currentSec ? currentSec.slide : 1,
-        slideTitle: currentSec ? currentSec.title : '',
+        sectionTitle: curSec ? curSec.title : '',
+        slide: curSlide ? (parseInt(curSlide.slide, 10) || 1) : 1,
+        slideTitle: curSlide ? curSlide.title : '',
         blank: isBlank
       };
       channel.postMessage(payload);
@@ -1155,7 +1236,7 @@
       const currentSec = presentation.sections[currentSectionIdx];
       if (!currentSec) return;
 
-      const targetSec = currentSec.target_seconds || 60;
+      const targetSec = currentSec.target_seconds || 300;
       const remainingSec = targetSec - sectionElapsedSeconds;
       const isOvertime = remainingSec < 0;
 
@@ -1174,7 +1255,7 @@
 
         statusPill.classList.remove('red');
         statusPill.classList.add('green');
-        statusPill.textContent = 'IDŐBEN VAGY';
+        statusPill.textContent = 'SZEKCIÓBÓL HÁTRA';
 
         const pct = Math.max(0, Math.min(100, (remainingSec / targetSec) * 100));
         progressFill.style.width = pct + '%';
@@ -1189,17 +1270,15 @@
 
         statusPill.classList.remove('green');
         statusPill.classList.add('red');
-        statusPill.textContent = 'IDŐTÚLLÉPÉS!';
+        statusPill.textContent = 'SZEKCIÓ IDŐTÚLLÉPÉS!';
 
         progressFill.style.width = '100%';
         progressFill.classList.add('overtime');
       }
 
       // Calculate Total presentation elapsed vs target
-      let totalTargetSec = 0;
-      presentation.sections.forEach(s => totalTargetSec += (s.target_seconds || 0));
+      let totalTargetSec = presentation.sections.reduce((sum, s) => sum + (s.target_seconds || 0), 0);
 
-      // Calculate target elapsed up to current section
       let plannedElapsedSoFar = 0;
       for (let i = 0; i < currentSectionIdx; i++) {
         plannedElapsedSoFar += (presentation.sections[i].target_seconds || 0);
@@ -1218,22 +1297,28 @@
     function nextStep() {
       const curSection = presentation.sections[currentSectionIdx];
       if (!curSection) return;
+      const curSlide = getCurrentSlideObj();
+      if (!curSlide) return;
 
-      const cues = curSection.cues || [];
+      const cues = curSlide.cues || [];
       if (currentCueIdx < cues.length - 1) {
-        // Advance to next quote in the same section/slide
+        // 1. Advance to next quote on the SAME slide
         currentCueIdx++;
         updatePresenterUI();
-      } else {
-        // Last quote in this section -> advance to next slide/section
-        if (currentSectionIdx < presentation.sections.length - 1) {
-          currentSectionIdx++;
-          currentCueIdx = 0;
-          sectionElapsedSeconds = 0; // Reset section timer
-          updatePresenterUI();
-          syncToProjector();
-          renderSlidePreviews();
-        }
+      } else if (currentSlideIdx < curSection.slides.length - 1) {
+        // 2. Next slide within the SAME section (section timer keeps running!)
+        currentSlideIdx++;
+        currentCueIdx = 0;
+        updatePresenterUI();
+        syncToProjector();
+      } else if (currentSectionIdx < presentation.sections.length - 1) {
+        // 3. Last slide in this section -> Next section!
+        currentSectionIdx++;
+        currentSlideIdx = 0;
+        currentCueIdx = 0;
+        sectionElapsedSeconds = 0; // Reset section timer for the new section
+        updatePresenterUI();
+        syncToProjector();
       }
     }
 
@@ -1241,33 +1326,42 @@
       if (currentCueIdx > 0) {
         currentCueIdx--;
         updatePresenterUI();
-      } else {
-        if (currentSectionIdx > 0) {
-          currentSectionIdx--;
-          const prevCues = presentation.sections[currentSectionIdx].cues || [];
-          currentCueIdx = Math.max(0, prevCues.length - 1);
-          sectionElapsedSeconds = 0;
-          updatePresenterUI();
-          syncToProjector();
-          renderSlidePreviews();
-        }
-      }
-    }
-
-    function jumpToSection(idx) {
-      if (idx >= 0 && idx < presentation.sections.length) {
-        currentSectionIdx = idx;
-        currentCueIdx = 0;
+      } else if (currentSlideIdx > 0) {
+        currentSlideIdx--;
+        const slide = getCurrentSlideObj();
+        currentCueIdx = Math.max(0, (slide.cues || []).length - 1);
+        updatePresenterUI();
+        syncToProjector();
+      } else if (currentSectionIdx > 0) {
+        currentSectionIdx--;
+        const prevSec = presentation.sections[currentSectionIdx];
+        currentSlideIdx = Math.max(0, (prevSec.slides || []).length - 1);
+        const slide = getCurrentSlideObj();
+        currentCueIdx = Math.max(0, (slide.cues || []).length - 1);
         sectionElapsedSeconds = 0;
         updatePresenterUI();
         syncToProjector();
-        renderSlidePreviews();
+      }
+    }
+
+    function jumpToSlide(secIdx, slideIdx) {
+      if (secIdx >= 0 && secIdx < presentation.sections.length) {
+        const sec = presentation.sections[secIdx];
+        if (sec.slides && slideIdx >= 0 && slideIdx < sec.slides.length) {
+          if (currentSectionIdx !== secIdx) {
+            sectionElapsedSeconds = 0; // reset if jumping to another section
+          }
+          currentSectionIdx = secIdx;
+          currentSlideIdx = slideIdx;
+          currentCueIdx = 0;
+          updatePresenterUI();
+          syncToProjector();
+        }
       }
     }
 
     // Keyboard controls for Clicker
     document.addEventListener('keydown', (e) => {
-      // Don't intercept when user is typing in editor inputs
       if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
 
       if (e.key === 'PageDown' || e.key === 'ArrowRight' || e.key === ' ') {
@@ -1289,22 +1383,41 @@
     // PRESENTER UI UPDATES
     // ----------------------------------------------------
     function updatePresenterUI() {
-      const curSection = presentation.sections[currentSectionIdx];
-      if (!curSection) return;
+      const curSec = presentation.sections[currentSectionIdx];
+      if (!curSec) return;
+      const curSlide = getCurrentSlideObj();
+      const cues = curSlide ? (curSlide.cues || []) : [];
 
-      const cues = curSection.cues || [];
-      const totalCues = cues.length;
+      // Calculate global slide numbers
+      let totalSlidesGlobal = 0;
+      let currentSlideGlobal = 0;
+      for (let s = 0; s < presentation.sections.length; s++) {
+        const sSlides = presentation.sections[s].slides || [];
+        for (let sl = 0; sl < sSlides.length; sl++) {
+          totalSlidesGlobal++;
+          if (s < currentSectionIdx || (s === currentSectionIdx && sl <= currentSlideIdx)) {
+            currentSlideGlobal++;
+          }
+        }
+      }
 
-      // Update Badges & Titles
-      document.getElementById('currentSlideBadge').textContent = `${curSection.slide}. DIA`;
-      document.getElementById('currentCueBadge').textContent = `${currentCueIdx + 1}. IDÉZET / ${totalCues || 1}`;
-      document.getElementById('sectionTitleDisplay').textContent = curSection.title || 'Névtelen szakasz';
+      const totalSlidesInSection = curSec.slides ? curSec.slides.length : 1;
+      const remainingSlidesInSection = Math.max(0, totalSlidesInSection - 1 - currentSlideIdx);
+
+      // Section and Slide Badges
+      document.getElementById('currentSectionBadge').textContent = `${currentSectionIdx + 1}. SZEKCIÓ / ${presentation.sections.length}`;
+      document.getElementById('sectionSlideRemainingBadge').textContent = `${currentSlideIdx + 1} / ${totalSlidesInSection} DIA A SZEKCIÓBAN (${remainingSlidesInSection} HÁTRA)`;
+      document.getElementById('sectionTitleDisplay').textContent = curSec.title || 'Névtelen szekció';
+      document.getElementById('currentSlideGlobalBadge').textContent = `${curSlide ? curSlide.slide : 1}. Dia: ${curSlide ? curSlide.title : ''} (${currentSlideGlobal}/${totalSlidesGlobal})`;
+
+      // Cue indicator
+      document.getElementById('currentCueBadge').textContent = `${currentCueIdx + 1}. IDÉZET / ${cues.length || 1} (EZEN A DIÁN)`;
 
       // Active Quote Text
-      const activeText = cues[currentCueIdx] || "(Nincs idézet hozzáadva ehhez a szakaszhoz)";
+      const activeText = cues[currentCueIdx] || "(Nincs idézet megadva ehhez a diához)";
       document.getElementById('activeQuoteText').textContent = activeText;
 
-      // Block Cues List (Timeline)
+      // Block Cues List (Timeline on this slide)
       const cuesListContainer = document.getElementById('blockCuesList');
       cuesListContainer.innerHTML = '';
       cues.forEach((cue, idx) => {
@@ -1330,21 +1443,24 @@
       // Next Action Preview
       const nextLabel = document.getElementById('nextActionLabel');
       const nextText = document.getElementById('nextActionText');
-      if (currentCueIdx < totalCues - 1) {
-        nextLabel.textContent = `Következő mondat (${currentCueIdx + 2}/${totalCues}):`;
+
+      if (currentCueIdx < cues.length - 1) {
+        nextLabel.textContent = `Következő mondat ezen a dián (${currentCueIdx + 2}/${cues.length}):`;
         nextText.textContent = cues[currentCueIdx + 1];
+      } else if (currentSlideIdx < curSec.slides.length - 1) {
+        const nextSlide = curSec.slides[currentSlideIdx + 1];
+        nextLabel.textContent = `Következő dia ebben a szekcióban (${nextSlide.slide}. oldal):`;
+        nextText.textContent = `${nextSlide.title} — "${(nextSlide.cues && nextSlide.cues[0]) || ''}"`;
+      } else if (currentSectionIdx < presentation.sections.length - 1) {
+        const nextSec = presentation.sections[currentSectionIdx + 1];
+        const nextSlide = (nextSec.slides && nextSec.slides[0]) ? nextSec.slides[0] : { slide: 1, title: '' };
+        nextLabel.textContent = `Következő szekció (${nextSec.title}):`;
+        nextText.textContent = `${nextSlide.slide}. Dia: ${nextSlide.title} — "${(nextSlide.cues && nextSlide.cues[0]) || ''}"`;
       } else {
-        if (currentSectionIdx < presentation.sections.length - 1) {
-          const nextSec = presentation.sections[currentSectionIdx + 1];
-          nextLabel.textContent = `Következő dia (${nextSec.slide}. oldal):`;
-          nextText.textContent = `${nextSec.title} — "${(nextSec.cues && nextSec.cues[0]) || ''}"`;
-        } else {
-          nextLabel.textContent = "Prezentáció vége";
-          nextText.textContent = "Ez volt az utolsó dia és idézet.";
-        }
+        nextLabel.textContent = "Prezentáció vége";
+        nextText.textContent = "Ez volt az utolsó dia és idézet.";
       }
 
-      // Update Agenda List
       renderAgendaList();
       renderTimer();
       renderSlidePreviews();
@@ -1354,25 +1470,38 @@
       const container = document.getElementById('agendaList');
       container.innerHTML = '';
 
-      presentation.sections.forEach((sec, idx) => {
-        const item = document.createElement('div');
-        item.className = 'agenda-item';
-        if (idx === currentSectionIdx) item.classList.add('active');
-        if (idx < currentSectionIdx) item.classList.add('past');
+      presentation.sections.forEach((sec, sIdx) => {
+        const group = document.createElement('div');
+        group.className = 'agenda-section-group';
 
-        item.onclick = () => jumpToSection(idx);
+        const secHeader = document.createElement('div');
+        secHeader.className = 'agenda-section-header';
+        if (sIdx === currentSectionIdx) secHeader.classList.add('active');
+        secHeader.onclick = () => jumpToSlide(sIdx, 0);
 
-        const titleSpan = document.createElement('span');
-        titleSpan.className = 'agenda-title';
-        titleSpan.textContent = `${sec.slide}. ${sec.title}`;
-        item.appendChild(titleSpan);
+        secHeader.innerHTML = `
+          <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 190px;">${sIdx + 1}. ${sec.title}</span>
+          <span style="font-size: 0.75rem; color: #94a3b8;">${formatTime(sec.target_seconds || 300)}</span>
+        `;
+        group.appendChild(secHeader);
 
-        const timeSpan = document.createElement('span');
-        timeSpan.style.color = 'var(--text-muted)';
-        timeSpan.textContent = formatTime(sec.target_seconds || 60);
-        item.appendChild(timeSpan);
+        (sec.slides || []).forEach((sl, slIdx) => {
+          const item = document.createElement('div');
+          item.className = 'agenda-slide-item';
+          if (sIdx === currentSectionIdx && slIdx === currentSlideIdx) item.classList.add('active');
+          item.onclick = (e) => {
+            e.stopPropagation();
+            jumpToSlide(sIdx, slIdx);
+          };
 
-        container.appendChild(item);
+          item.innerHTML = `
+            <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 180px;">${sl.slide}. ${sl.title}</span>
+            <span style="font-size: 0.7rem; color: #64748b;">${(sl.cues || []).length} id.</span>
+          `;
+          group.appendChild(item);
+        });
+
+        container.appendChild(group);
       });
     }
 
@@ -1385,51 +1514,52 @@
     // PDF & FALLBACK RENDERING FOR SPEAKER PREVIEWS
     // ----------------------------------------------------
     let thumbRenderTasks = {};
-    let lastRenderedCurrentSlide = -1;
-    let lastRenderedNextSlide = -1;
 
     async function renderSlidePreviews() {
       const curSec = presentation.sections[currentSectionIdx];
-      const curSlideNum = curSec ? (parseInt(curSec.slide, 10) || 1) : 1;
-      
-      let nextSec = null;
+      const curSlide = getCurrentSlideObj();
+      const curSlideNum = curSlide ? (parseInt(curSlide.slide, 10) || 1) : 1;
+
+      // Find next slide across section boundary
       let nextSlideNum = -1;
-      if (currentSectionIdx < presentation.sections.length - 1) {
-        nextSec = presentation.sections[currentSectionIdx + 1];
-        nextSlideNum = nextSec ? (parseInt(nextSec.slide, 10) || (curSlideNum + 1)) : -1;
+      let nextSlideTitle = '';
+      if (curSec && currentSlideIdx < curSec.slides.length - 1) {
+        const nextSl = curSec.slides[currentSlideIdx + 1];
+        nextSlideNum = parseInt(nextSl.slide, 10) || (curSlideNum + 1);
+        nextSlideTitle = nextSl.title;
+      } else if (currentSectionIdx < presentation.sections.length - 1) {
+        const nextSec = presentation.sections[currentSectionIdx + 1];
+        if (nextSec.slides && nextSec.slides[0]) {
+          nextSlideNum = parseInt(nextSec.slides[0].slide, 10) || (curSlideNum + 1);
+          nextSlideTitle = nextSec.slides[0].title;
+        }
       }
 
-      // 1. IF NO PDF IS ATTACHED: Render informative mini cards that match the projector!
+      // 1. IF NO PDF ATTACHED: Render informative cards that mirror the projector
       if (!pdfDoc) {
         document.getElementById('currentSlideCanvas').style.display = 'none';
         document.getElementById('nextSlideCanvas').style.display = 'none';
-        
+
         const curPh = document.getElementById('currentSlidePlaceholder');
         curPh.style.display = 'flex';
-        curPh.style.flexDirection = 'column';
-        curPh.style.alignItems = 'center';
-        curPh.style.justifyContent = 'center';
         curPh.innerHTML = `
           <div style="background: rgba(59, 130, 246, 0.2); border: 1px solid #3b82f6; border-radius: 8px; padding: 12px 16px; width: 85%; text-align: center;">
             <div style="font-size: 0.8rem; font-weight: 800; color: #60a5fa; text-transform: uppercase; margin-bottom: 4px;">${curSlideNum}. DIA</div>
-            <div style="font-size: 0.95rem; font-weight: 700; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${curSec ? (curSec.title || 'Névtelen dia') : ''}</div>
+            <div style="font-size: 0.95rem; font-weight: 700; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${curSlide ? (curSlide.title || 'Névtelen dia') : ''}</div>
           </div>
         `;
-        document.getElementById('currentSlideNum').textContent = `${curSlideNum} / ${presentation.sections.length}`;
+        document.getElementById('currentSlideNum').textContent = `${curSlideNum}`;
 
         const nextPh = document.getElementById('nextSlidePlaceholder');
         nextPh.style.display = 'flex';
-        nextPh.style.flexDirection = 'column';
-        nextPh.style.alignItems = 'center';
-        nextPh.style.justifyContent = 'center';
-        if (nextSec) {
+        if (nextSlideNum > 0) {
           nextPh.innerHTML = `
             <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 8px; padding: 12px 16px; width: 85%; text-align: center;">
               <div style="font-size: 0.8rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 4px;">${nextSlideNum}. DIA</div>
-              <div style="font-size: 0.95rem; font-weight: 700; color: #cbd5e1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${nextSec.title || 'Névtelen dia'}</div>
+              <div style="font-size: 0.95rem; font-weight: 700; color: #cbd5e1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${nextSlideTitle || 'Névtelen dia'}</div>
             </div>
           `;
-          document.getElementById('nextSlideNum').textContent = `${nextSlideNum} / ${presentation.sections.length}`;
+          document.getElementById('nextSlideNum').textContent = `${nextSlideNum}`;
         } else {
           nextPh.innerHTML = `<span style="color: #64748b; font-size: 0.85rem;">Prezentáció vége</span>`;
           document.getElementById('nextSlideNum').textContent = `-`;
@@ -1437,7 +1567,7 @@
         return;
       }
 
-      // 2. IF PDF IS ATTACHED: Render the actual PDF pages to canvases
+      // 2. IF PDF ATTACHED: Render PDF canvas
       document.getElementById('currentSlidePlaceholder').style.display = 'none';
       document.getElementById('nextSlidePlaceholder').style.display = 'none';
       document.getElementById('currentSlideCanvas').style.display = 'block';
@@ -1445,7 +1575,7 @@
 
       await renderThumb(curSlideNum, 'currentSlideCanvas');
 
-      if (nextSec && nextSlideNum >= 1 && nextSlideNum <= pdfDoc.numPages) {
+      if (nextSlideNum >= 1 && nextSlideNum <= pdfDoc.numPages) {
         document.getElementById('nextSlidePlaceholder').style.display = 'none';
         document.getElementById('nextSlideCanvas').style.display = 'block';
         document.getElementById('nextSlideNum').textContent = `${nextSlideNum} / ${pdfDoc.numPages}`;
@@ -1454,9 +1584,7 @@
         document.getElementById('nextSlideCanvas').style.display = 'none';
         const nextPh = document.getElementById('nextSlidePlaceholder');
         nextPh.style.display = 'flex';
-        nextPh.style.alignItems = 'center';
-        nextPh.style.justifyContent = 'center';
-        nextPh.textContent = 'Prezentáció vége';
+        nextPh.innerHTML = `<span style="color: #64748b; font-size: 0.85rem;">Prezentáció vége</span>`;
         document.getElementById('nextSlideNum').textContent = `-`;
       }
     }
@@ -1468,7 +1596,6 @@
       const canvas = document.getElementById(canvasId);
       if (!canvas) return;
 
-      // Cancel any ongoing render task on this specific canvas to prevent PDF.js overlap collision
       if (thumbRenderTasks[canvasId]) {
         try {
           thumbRenderTasks[canvasId].cancel();
@@ -1480,7 +1607,6 @@
         const page = await pdfDoc.getPage(pageNum);
         const ctx = canvas.getContext('2d');
 
-        // Dynamically compute optimal viewport scale based on container size
         const containerWidth = canvas.parentElement ? (canvas.parentElement.clientWidth || 320) : 320;
         const unscaledViewport = page.getViewport({ scale: 1.0 });
         const scale = Math.max(0.2, (containerWidth * 1.2) / unscaledViewport.width);
@@ -1510,7 +1636,7 @@
       document.getElementById('pdfStatusLabel').textContent = `${file.name} (${(file.size / 1024 / 1024).toFixed(1)} MB)`;
 
       const arrayBuffer = await file.arrayBuffer();
-      pdfRawData = arrayBuffer;
+      pdfRawData = arrayBuffer.slice(0);
 
       if (window.pdfjsLib) {
         const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
@@ -1521,8 +1647,61 @@
     }
 
     // ----------------------------------------------------
-    // FORGATÓKÖNYV SZERKESZTŐ (EDITOR)
+    // FORGATÓKÖNYV SZERKESZTŐ (SECTIONS -> SLIDES -> CUES)
     // ----------------------------------------------------
+    function normalizePresentation(data) {
+      if (!data) return { title: "Új prezentáció", sections: [] };
+      if (!Array.isArray(data.sections)) data.sections = [];
+
+      // Support legacy format where sections had cues directly
+      data.sections.forEach((sec, sIdx) => {
+        if (!sec.title) sec.title = `Szekció ${sIdx + 1}`;
+        if (typeof sec.target_seconds === 'undefined') sec.target_seconds = 300;
+
+        if (!Array.isArray(sec.slides)) {
+          if (Array.isArray(sec.cues)) {
+            sec.slides = [
+              {
+                slide: sec.slide || (sIdx + 1),
+                title: sec.title || `Dia ${sIdx + 1}`,
+                cues: sec.cues
+              }
+            ];
+            delete sec.cues;
+          } else {
+            sec.slides = [
+              {
+                slide: sIdx + 1,
+                title: `Dia ${sIdx + 1}`,
+                cues: ["Idézet vagy vázlatpont szövege..."]
+              }
+            ];
+          }
+        }
+
+        sec.slides.forEach((sl, slIdx) => {
+          if (typeof sl.slide === 'undefined') sl.slide = slIdx + 1;
+          if (!sl.title) sl.title = `Dia ${sl.slide}`;
+          if (!Array.isArray(sl.cues)) sl.cues = ["Idézet szövege..."];
+        });
+      });
+
+      if (data.sections.length === 0) {
+        data.sections.push({
+          title: "Bevezetés",
+          target_seconds: 300,
+          slides: [
+            {
+              slide: 1,
+              title: "Köszöntés",
+              cues: ["Köszönteni a hallgatóságot."]
+            }
+          ]
+        });
+      }
+      return data;
+    }
+
     function renderEditor() {
       saveToStorage();
       document.getElementById('presTitleInput').value = presentation.title || '';
@@ -1530,37 +1709,37 @@
       list.innerHTML = '';
 
       let totalSec = 0;
+      let totalSlidesCount = 0;
 
       presentation.sections.forEach((sec, sIdx) => {
         totalSec += (sec.target_seconds || 0);
+        totalSlidesCount += (sec.slides ? sec.slides.length : 0);
 
         const card = document.createElement('div');
         card.className = 'editor-section-card';
 
-        // Card Header
+        // Section Header
         const header = document.createElement('div');
         header.className = 'section-row-header';
 
         const leftGroup = document.createElement('div');
         leftGroup.style.display = 'flex';
-        leftGroup.style.gap = '12px';
+        leftGroup.style.gap = '14px';
         leftGroup.style.alignItems = 'center';
+        leftGroup.style.flexWrap = 'wrap';
 
-        // Slide number
-        const slideGroup = document.createElement('div');
-        slideGroup.className = 'input-group';
-        slideGroup.innerHTML = `<label>Dia:</label><input type="number" min="1" value="${sec.slide || (sIdx + 1)}" style="width: 60px;" onchange="updateSectionField(${sIdx}, 'slide', parseInt(this.value))">`;
-        leftGroup.appendChild(slideGroup);
-
-        // Section Title
+        // Szekció badge & Cím
         const titleGroup = document.createElement('div');
         titleGroup.className = 'input-group';
-        titleGroup.innerHTML = `<label>Cím:</label><input type="text" value="${sec.title || ''}" placeholder="Szakasz megnevezése" style="width: 280px;" onchange="updateSectionField(${sIdx}, 'title', this.value)">`;
+        titleGroup.innerHTML = `
+          <label style="color: #38bdf8;">${sIdx + 1}. Szekció címe:</label>
+          <input type="text" value="${sec.title || ''}" placeholder="pl. Bevezetés" style="width: 280px; font-weight: 700;" onchange="updateSectionField(${sIdx}, 'title', this.value)">
+        `;
         leftGroup.appendChild(titleGroup);
 
-        // Target Duration (Minutes + Seconds)
-        const curMins = Math.floor((sec.target_seconds || 60) / 60);
-        const curSecs = (sec.target_seconds || 60) % 60;
+        // Section Target Time
+        const curMins = Math.floor((sec.target_seconds || 300) / 60);
+        const curSecs = (sec.target_seconds || 300) % 60;
         const timeGroup = document.createElement('div');
         timeGroup.className = 'input-group';
         timeGroup.innerHTML = `
@@ -1572,86 +1751,140 @@
 
         header.appendChild(leftGroup);
 
-        // Actions: Move up/down, delete
+        // Section actions
         const actionGroup = document.createElement('div');
         actionGroup.style.display = 'flex';
         actionGroup.style.gap = '6px';
-
         actionGroup.innerHTML = `
-          <button class="btn-icon" title="Mozgatás fel" onclick="moveSection(${sIdx}, -1)" ${sIdx === 0 ? 'disabled' : ''}>⬆️</button>
-          <button class="btn-icon" title="Mozgatás le" onclick="moveSection(${sIdx}, 1)" ${sIdx === presentation.sections.length - 1 ? 'disabled' : ''}>⬇️</button>
-          <button class="btn-icon" title="Duplikálás" onclick="duplicateSection(${sIdx})">📋</button>
-          <button class="btn-icon" title="Törlés" style="color: var(--red);" onclick="deleteSection(${sIdx})">🗑️</button>
+          <button class="btn-icon" title="Szekció fel" onclick="moveSection(${sIdx}, -1)" ${sIdx === 0 ? 'disabled' : ''}>⬆️</button>
+          <button class="btn-icon" title="Szekció le" onclick="moveSection(${sIdx}, 1)" ${sIdx === presentation.sections.length - 1 ? 'disabled' : ''}>⬇️</button>
+          <button class="btn-icon" title="Szekció másolása" onclick="duplicateSection(${sIdx})">📋</button>
+          <button class="btn-icon" title="Szekció törlése" style="color: var(--red);" onclick="deleteSection(${sIdx})">🗑️</button>
         `;
         header.appendChild(actionGroup);
         card.appendChild(header);
 
-        // Cues List
-        const cuesBox = document.createElement('div');
-        cuesBox.className = 'section-cues-editor';
+        // Diák konténer ebben a szekcióban
+        const slidesContainer = document.createElement('div');
+        slidesContainer.style.display = 'flex';
+        slidesContainer.style.flexDirection = 'column';
+        slidesContainer.style.gap = '12px';
 
-        const cuesHeader = document.createElement('div');
-        cuesHeader.style.display = 'flex';
-        cuesHeader.style.justifyContent = 'space-between';
-        cuesHeader.style.alignItems = 'center';
-        cuesHeader.innerHTML = `<span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Mondanivaló / Idézetek sorrendje (Page Down-ra váltanak)</span>`;
-        cuesBox.appendChild(cuesHeader);
+        (sec.slides || []).forEach((slide, slIdx) => {
+          const slideCard = document.createElement('div');
+          slideCard.className = 'editor-slide-card';
 
-        (sec.cues || []).forEach((cue, cIdx) => {
-          const row = document.createElement('div');
-          row.className = 'cue-edit-row';
+          // Slide Row Header
+          const slideHeader = document.createElement('div');
+          slideHeader.className = 'slide-row-header';
 
-          const idxBadge = document.createElement('span');
-          idxBadge.style.color = 'var(--text-muted)';
-          idxBadge.style.fontSize = '0.85rem';
-          idxBadge.style.fontWeight = '700';
-          idxBadge.textContent = `${cIdx + 1}.`;
-          row.appendChild(idxBadge);
+          const slideInfo = document.createElement('div');
+          slideInfo.style.display = 'flex';
+          slideInfo.style.gap = '10px';
+          slideInfo.style.alignItems = 'center';
+          slideInfo.style.flexWrap = 'wrap';
 
-          const textarea = document.createElement('textarea');
-          textarea.rows = 2;
-          textarea.value = cue;
-          textarea.placeholder = "Idézet vagy vázlatpont szövege...";
-          textarea.onchange = (e) => updateCueText(sIdx, cIdx, e.target.value);
-          row.appendChild(textarea);
-
-          const cueActions = document.createElement('div');
-          cueActions.style.display = 'flex';
-          cueActions.style.gap = '4px';
-          cueActions.innerHTML = `
-            <button class="btn-icon" title="Fel" onclick="moveCue(${sIdx}, ${cIdx}, -1)" ${cIdx === 0 ? 'disabled' : ''}>▲</button>
-            <button class="btn-icon" title="Le" onclick="moveCue(${sIdx}, ${cIdx}, 1)" ${cIdx === (sec.cues.length - 1) ? 'disabled' : ''}>▼</button>
-            <button class="btn-icon" title="Törlés" style="color: var(--red);" onclick="deleteCue(${sIdx}, ${cIdx})">✕</button>
+          slideInfo.innerHTML = `
+            <div class="input-group">
+              <label>Dia:</label>
+              <input type="number" min="1" value="${slide.slide || (slIdx + 1)}" style="width: 60px;" onchange="updateSlideField(${sIdx}, ${slIdx}, 'slide', parseInt(this.value))">
+            </div>
+            <div class="input-group">
+              <label>Cím:</label>
+              <input type="text" value="${slide.title || ''}" placeholder="Dia címe" style="width: 240px;" onchange="updateSlideField(${sIdx}, ${slIdx}, 'title', this.value)">
+            </div>
           `;
-          row.appendChild(cueActions);
-          cuesBox.appendChild(row);
+          slideHeader.appendChild(slideInfo);
+
+          const slideActions = document.createElement('div');
+          slideActions.style.display = 'flex';
+          slideActions.style.gap = '4px';
+          slideActions.innerHTML = `
+            <button class="btn-icon" title="Dia fel a szekcióban" onclick="moveSlide(${sIdx}, ${slIdx}, -1)" ${slIdx === 0 ? 'disabled' : ''}>▲</button>
+            <button class="btn-icon" title="Dia le a szekcióban" onclick="moveSlide(${sIdx}, ${slIdx}, 1)" ${slIdx === (sec.slides.length - 1) ? 'disabled' : ''}>▼</button>
+            <button class="btn-icon" title="Dia törlése" style="color: var(--red);" onclick="deleteSlide(${sIdx}, ${slIdx})">✕</button>
+          `;
+          slideHeader.appendChild(slideActions);
+          slideCard.appendChild(slideHeader);
+
+          // Cues List for this slide
+          const cuesBox = document.createElement('div');
+          cuesBox.className = 'slide-cues-editor';
+
+          (slide.cues || []).forEach((cue, cIdx) => {
+            const row = document.createElement('div');
+            row.className = 'cue-edit-row';
+
+            const idxBadge = document.createElement('span');
+            idxBadge.style.color = '#94a3b8';
+            idxBadge.style.fontSize = '0.8rem';
+            idxBadge.style.fontWeight = '700';
+            idxBadge.style.minWidth = '22px';
+            idxBadge.textContent = `${cIdx + 1}.`;
+            row.appendChild(idxBadge);
+
+            const textarea = document.createElement('textarea');
+            textarea.rows = 2;
+            textarea.value = cue;
+            textarea.placeholder = "Idézet vagy vázlatpont szövege...";
+            textarea.onchange = (e) => updateCueText(sIdx, slIdx, cIdx, e.target.value);
+            row.appendChild(textarea);
+
+            const cueActions = document.createElement('div');
+            cueActions.style.display = 'flex';
+            cueActions.style.gap = '4px';
+            cueActions.innerHTML = `
+              <button class="btn-icon" title="Fel" onclick="moveCue(${sIdx}, ${slIdx}, ${cIdx}, -1)" ${cIdx === 0 ? 'disabled' : ''}>▲</button>
+              <button class="btn-icon" title="Le" onclick="moveCue(${sIdx}, ${slIdx}, ${cIdx}, 1)" ${cIdx === (slide.cues.length - 1) ? 'disabled' : ''}>▼</button>
+              <button class="btn-icon" title="Törlés" style="color: var(--red);" onclick="deleteCue(${sIdx}, ${slIdx}, ${cIdx})">✕</button>
+            `;
+            row.appendChild(cueActions);
+            cuesBox.appendChild(row);
+          });
+
+          const addCueBtn = document.createElement('button');
+          addCueBtn.className = 'btn btn-secondary';
+          addCueBtn.style.alignSelf = 'flex-start';
+          addCueBtn.style.fontSize = '0.8rem';
+          addCueBtn.innerHTML = '➕ Új idézet ehhez a diához';
+          addCueBtn.onclick = () => addCue(sIdx, slIdx);
+          cuesBox.appendChild(addCueBtn);
+
+          slideCard.appendChild(cuesBox);
+          slidesContainer.appendChild(slideCard);
         });
 
-        const addCueBtn = document.createElement('button');
-        addCueBtn.className = 'btn btn-secondary';
-        addCueBtn.style.alignSelf = 'flex-start';
-        addCueBtn.style.fontSize = '0.8rem';
-        addCueBtn.innerHTML = '➕ Új idézet hozzáadása ehhez a diához';
-        addCueBtn.onclick = () => addCue(sIdx);
-        cuesBox.appendChild(addCueBtn);
+        // Add Slide Button in Section
+        const addSlideBtn = document.createElement('button');
+        addSlideBtn.className = 'btn btn-secondary';
+        addSlideBtn.style.alignSelf = 'flex-start';
+        addSlideBtn.style.marginLeft = '14px';
+        addSlideBtn.style.fontSize = '0.85rem';
+        addSlideBtn.innerHTML = `➕ Új dia hozzáadása a(z) ${sIdx + 1}. szekcióhoz`;
+        addSlideBtn.onclick = () => addNewSlideToSection(sIdx);
+        slidesContainer.appendChild(addSlideBtn);
 
-        card.appendChild(cuesBox);
+        card.appendChild(slidesContainer);
         list.appendChild(card);
       });
 
+      document.getElementById('totalSectionsCountLabel').textContent = `${presentation.sections.length} db`;
+      document.getElementById('totalSlidesCountLabel').textContent = `${totalSlidesCount} db`;
       document.getElementById('totalPlannedTimeLabel').textContent = formatTime(totalSec);
     }
 
     function updatePresTitle(val) {
       presentation.title = val;
+      saveToStorage();
     }
 
     function updateSectionField(sIdx, field, val) {
       presentation.sections[sIdx][field] = val;
+      renderEditor();
     }
 
     function updateSectionDuration(sIdx, mins, secs) {
-      const curSec = presentation.sections[sIdx].target_seconds || 60;
+      const curSec = presentation.sections[sIdx].target_seconds || 300;
       let m = Math.floor(curSec / 60);
       let s = curSec % 60;
       if (mins !== null) m = mins;
@@ -1660,23 +1893,31 @@
       renderEditor();
     }
 
-    function updateCueText(sIdx, cIdx, text) {
-      presentation.sections[sIdx].cues[cIdx] = text;
+    function updateSlideField(sIdx, slIdx, field, val) {
+      presentation.sections[sIdx].slides[slIdx][field] = val;
+      saveToStorage();
     }
 
-    function addCue(sIdx) {
-      if (!presentation.sections[sIdx].cues) presentation.sections[sIdx].cues = [];
-      presentation.sections[sIdx].cues.push("Új idézet szövege...");
+    function updateCueText(sIdx, slIdx, cIdx, text) {
+      presentation.sections[sIdx].slides[slIdx].cues[cIdx] = text;
+      saveToStorage();
+    }
+
+    function addCue(sIdx, slIdx) {
+      if (!presentation.sections[sIdx].slides[slIdx].cues) {
+        presentation.sections[sIdx].slides[slIdx].cues = [];
+      }
+      presentation.sections[sIdx].slides[slIdx].cues.push("Új idézet vagy vázlatpont szövege...");
       renderEditor();
     }
 
-    function deleteCue(sIdx, cIdx) {
-      presentation.sections[sIdx].cues.splice(cIdx, 1);
+    function deleteCue(sIdx, slIdx, cIdx) {
+      presentation.sections[sIdx].slides[slIdx].cues.splice(cIdx, 1);
       renderEditor();
     }
 
-    function moveCue(sIdx, cIdx, delta) {
-      const list = presentation.sections[sIdx].cues;
+    function moveCue(sIdx, slIdx, cIdx, delta) {
+      const list = presentation.sections[sIdx].slides[slIdx].cues;
       const target = cIdx + delta;
       if (target >= 0 && target < list.length) {
         const item = list.splice(cIdx, 1)[0];
@@ -1685,14 +1926,67 @@
       }
     }
 
+    function addNewSlideToSection(sIdx) {
+      const sec = presentation.sections[sIdx];
+      let nextSlideNum = 1;
+
+      // Find highest slide number in presentation
+      presentation.sections.forEach(s => {
+        (s.slides || []).forEach(sl => {
+          const num = parseInt(sl.slide, 10);
+          if (!isNaN(num) && num >= nextSlideNum) nextSlideNum = num + 1;
+        });
+      });
+
+      sec.slides.push({
+        slide: nextSlideNum,
+        title: `Új dia (${nextSlideNum}.)`,
+        cues: ["Első idézet ehhez a diához."]
+      });
+      renderEditor();
+    }
+
+    function moveSlide(sIdx, slIdx, delta) {
+      const list = presentation.sections[sIdx].slides;
+      const target = slIdx + delta;
+      if (target >= 0 && target < list.length) {
+        const item = list.splice(slIdx, 1)[0];
+        list.splice(target, 0, item);
+        renderEditor();
+      }
+    }
+
+    function deleteSlide(sIdx, slIdx) {
+      if (presentation.sections[sIdx].slides.length <= 1) {
+        alert("Egy szekciónak legalább egy diát tartalmaznia kell!");
+        return;
+      }
+      if (confirm("Biztosan törlöd ezt a diát?")) {
+        presentation.sections[sIdx].slides.splice(slIdx, 1);
+        renderEditor();
+      }
+    }
+
     function addNewSection() {
       const lastSec = presentation.sections[presentation.sections.length - 1];
-      const nextSlide = lastSec ? lastSec.slide + 1 : 1;
+      let nextSlideNum = 1;
+      presentation.sections.forEach(s => {
+        (s.slides || []).forEach(sl => {
+          const num = parseInt(sl.slide, 10);
+          if (!isNaN(num) && num >= nextSlideNum) nextSlideNum = num + 1;
+        });
+      });
+
       presentation.sections.push({
-        slide: nextSlide,
-        title: `Új szakasz (${nextSlide}. dia)`,
-        target_seconds: 120,
-        cues: ["Első mondanivaló vagy idézet ehhez a diához."]
+        title: `Új szekció (${presentation.sections.length + 1}.)`,
+        target_seconds: 300,
+        slides: [
+          {
+            slide: nextSlideNum,
+            title: `Dia ${nextSlideNum}`,
+            cues: ["Első mondanivaló vagy idézet."]
+          }
+        ]
       });
       renderEditor();
     }
@@ -1708,7 +2002,6 @@
 
     function duplicateSection(sIdx) {
       const clone = JSON.parse(JSON.stringify(presentation.sections[sIdx]));
-      clone.slide += 1;
       clone.title += " (Másolat)";
       presentation.sections.splice(sIdx + 1, 0, clone);
       renderEditor();
@@ -1716,13 +2009,15 @@
 
     function deleteSection(sIdx) {
       if (presentation.sections.length <= 1) {
-        alert("Legalább egy szakasznak maradnia kell!");
+        alert("Legalább egy szekciónak maradnia kell!");
         return;
       }
-      if (confirm("Biztosan törlöd ezt a szakaszt?")) {
+      if (confirm("Biztosan törlöd ezt a teljes szekciót a benne lévő diákkal együtt?")) {
         presentation.sections.splice(sIdx, 1);
         if (currentSectionIdx >= presentation.sections.length) {
           currentSectionIdx = presentation.sections.length - 1;
+          currentSlideIdx = 0;
+          currentCueIdx = 0;
         }
         renderEditor();
       }
@@ -1747,9 +2042,12 @@
         try {
           const parsed = JSON.parse(event.target.result);
           if (parsed && Array.isArray(parsed.sections)) {
-            presentation = parsed;
+            presentation = normalizePresentation(parsed);
             currentSectionIdx = 0;
+            currentSlideIdx = 0;
             currentCueIdx = 0;
+            sectionElapsedSeconds = 0;
+            totalElapsedSeconds = 0;
             renderEditor();
             updatePresenterUI();
             alert("A forgatókönyv sikeresen betöltve!");
@@ -1767,9 +2065,13 @@
       try {
         const res = await fetch('sample_presentation.json');
         if (res.ok) {
-          presentation = await res.json();
+          const data = await res.json();
+          presentation = normalizePresentation(data);
           currentSectionIdx = 0;
+          currentSlideIdx = 0;
           currentCueIdx = 0;
+          sectionElapsedSeconds = 0;
+          totalElapsedSeconds = 0;
           renderEditor();
           updatePresenterUI();
           alert("Minta sikeresen betöltve!");
@@ -1796,7 +2098,7 @@
         const text = document.getElementById('rawJsonTextarea').value;
         const parsed = JSON.parse(text);
         if (parsed && Array.isArray(parsed.sections)) {
-          presentation = parsed;
+          presentation = normalizePresentation(parsed);
           renderEditor();
           updatePresenterUI();
           closeRawJsonModal();
@@ -1808,23 +2110,7 @@
       }
     }
 
-    // View Switching
-    function switchView(viewName) {
-      document.getElementById('viewPresenter').classList.toggle('active', viewName === 'presenter');
-      document.getElementById('viewEditor').classList.toggle('active', viewName === 'editor');
-      document.getElementById('tabPresenter').classList.toggle('active', viewName === 'presenter');
-      document.getElementById('tabEditor').classList.toggle('active', viewName === 'editor');
-
-      if (viewName === 'presenter') {
-        updatePresenterUI();
-        renderSlidePreviews();
-        syncToProjector();
-      } else {
-        renderEditor();
-      }
-    }
-
-    // Screen Wake Lock API (keeps laptop screen awake during presentation)
+    // Screen Wake Lock API
     let wakeLock = null;
     async function requestWakeLock() {
       try {
@@ -1842,7 +2128,6 @@
       }
     }
 
-    // Re-acquire wake lock if user switches back to this tab
     document.addEventListener('visibilitychange', async () => {
       if (wakeLock !== null && document.visibilityState === 'visible') {
         await requestWakeLock();
@@ -1861,40 +2146,61 @@
           title: "Új előadás",
           sections: [
             {
-              slide: 1,
               title: "Bevezetés",
-              target_seconds: 90,
-              cues: [
-                "Első gondolat / idézet ehhez a diához..."
+              target_seconds: 300,
+              slides: [
+                {
+                  slide: 1,
+                  title: "Köszöntés",
+                  cues: [
+                    "Első gondolat / idézet ehhez a diához..."
+                  ]
+                }
               ]
             }
           ]
         };
         currentSectionIdx = 0;
+        currentSlideIdx = 0;
         currentCueIdx = 0;
+        sectionElapsedSeconds = 0;
+        totalElapsedSeconds = 0;
         saveToStorage();
         renderEditor();
         updatePresenterUI();
       }
     }
 
+    function switchView(viewName) {
+      document.getElementById('viewPresenter').classList.toggle('active', viewName === 'presenter');
+      document.getElementById('viewEditor').classList.toggle('active', viewName === 'editor');
+      document.getElementById('tabPresenter').classList.toggle('active', viewName === 'presenter');
+      document.getElementById('tabEditor').classList.toggle('active', viewName === 'editor');
+
+      if (viewName === 'presenter') {
+        updatePresenterUI();
+        syncToProjector();
+      } else {
+        renderEditor();
+      }
+    }
+
     // Init App
     window.addEventListener('DOMContentLoaded', async () => {
-      // 1. Try local storage autosave first
       const saved = localStorage.getItem('zent_saved_presentation');
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
           if (parsed && Array.isArray(parsed.sections)) {
-            presentation = parsed;
+            presentation = normalizePresentation(parsed);
           }
         } catch (e) {}
       } else {
-        // 2. Fallback to sample JSON
         try {
           const res = await fetch('sample_presentation.json');
           if (res.ok) {
-            presentation = await res.json();
+            const data = await res.json();
+            presentation = normalizePresentation(data);
           }
         } catch (e) {}
       }
@@ -1904,7 +2210,7 @@
         const pdfRes = await fetch('minta_prezentacio.pdf');
         if (pdfRes.ok) {
           const ab = await pdfRes.arrayBuffer();
-          pdfRawData = ab;
+          pdfRawData = ab.slice(0);
           if (window.pdfjsLib) {
             const loadingTask = pdfjsLib.getDocument({ data: ab });
             pdfDoc = await loadingTask.promise;
@@ -1915,7 +2221,6 @@
 
       renderEditor();
       updatePresenterUI();
-      renderSlidePreviews();
       startTimer();
       requestWakeLock();
     });

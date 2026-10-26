@@ -2,43 +2,64 @@
   "title": "A hatékony előadás művészete és az időzítés",
   "sections": [
     {
-      "slide": 1,
-      "title": "Bevezetés és köszöntés",
-      "target_seconds": 90,
-      "cues": [
-        "Szeretettel köszönteni a résztvevőket, kontextusba helyezni a mai témát.",
-        "„A tanulás nem felkészülés az életre; a tanulás maga az élet.” – John Dewey",
-        "Kiemelni a mai előadás fő célját: hogyan tartsuk meg a közönség figyelmét anélkül, hogy kifutnánk az időből."
+      "title": "Bevezetés és kontextus",
+      "target_seconds": 240,
+      "slides": [
+        {
+          "slide": 1,
+          "title": "Köszöntés és célkitűzés",
+          "cues": [
+            "Szeretettel köszönteni a résztvevőket, kontextusba helyezni a mai témát.",
+            "„A tanulás nem felkészülés az életre; a tanulás maga az élet.” – John Dewey",
+            "Kiemelni a mai előadás fő célját: hogyan tartsuk meg a közönség figyelmét anélkül, hogy kifutnánk az időből."
+          ]
+        },
+        {
+          "slide": 2,
+          "title": "Miért nehéz az időzítés?",
+          "cues": [
+            "A prezentációk 80%-a túllépi a tervezett keretet.",
+            "A közönség fejében elindul a mentális stopper, ha csúszást éreznek."
+          ]
+        }
       ]
     },
     {
-      "slide": 2,
-      "title": "A figyelem természete a digitális korban",
-      "target_seconds": 120,
-      "cues": [
-        "Nem az agyunk változott meg, hanem a világ ingergazdagsága nőtt exponenciálisan.",
-        "„A technológia csupán eszköz. A diákok motiválásában és együttműködésében a tanár a legfontosabb tényező.” – Bill Gates",
-        "Gyakorlati tapasztalat: az első 3 perc után a figyelem drasztikusan visszaesik, ha nincs interakció."
+      "title": "A figyelem és dramaturgia",
+      "target_seconds": 360,
+      "slides": [
+        {
+          "slide": 3,
+          "title": "A digitális figyelemhiány mítosza",
+          "cues": [
+            "Nem az agyunk változott meg, hanem a világ ingergazdagsága nőtt exponenciálisan.",
+            "„A technológia csupán eszköz. A diákok motiválásában és együttműködésében a tanár a legfontosabb tényező.” – Bill Gates",
+            "Gyakorlati tapasztalat: az első 3 perc után a figyelem drasztikusan visszaesik, ha nincs interakció."
+          ]
+        },
+        {
+          "slide": 4,
+          "title": "Az előadás ritmusa",
+          "cues": [
+            "A jó előadás ritmusa: feszültségkeltés, feloldás, tanulság.",
+            "„Mondd el és elfelejtem; mutasd meg és megjegyzem; engedd, hogy csináljam és megértem.” – Konfuciusz"
+          ]
+        }
       ]
     },
     {
-      "slide": 3,
-      "title": "Időzítés és dramaturgia",
-      "target_seconds": 150,
-      "cues": [
-        "A jó előadás ritmusa: feszültségkeltés, feloldás, tanulság.",
-        "„Mondd el és elfelejtem; mutasd meg és megjegyzem; engedd, hogy csináljam és megértem.” – Konfuciusz",
-        "Miért veszélyes a túlfutás? A közönség fejében elindul a mentális stopper."
-      ]
-    },
-    {
-      "slide": 4,
-      "title": "Összegzés és kérdések",
-      "target_seconds": 90,
-      "cues": [
-        "A 3 kulcsgondolat gyors áttekintése.",
-        "„Az egyszerűség a végső kifinomultság.” – Leonardo da Vinci",
-        "Megnyitni a teret a kérdéseknek és köszönetet mondani."
+      "title": "Összegzés és tanulságok",
+      "target_seconds": 180,
+      "slides": [
+        {
+          "slide": 5,
+          "title": "Konklúzió és kérdések",
+          "cues": [
+            "A 3 kulcsgondolat gyors áttekintése.",
+            "„Az egyszerűség a végső kifinomultság.” – Leonardo da Vinci",
+            "Megnyitni a teret a kérdéseknek és köszönetet mondani."
+          ]
+        }
       ]
     }
   ]
