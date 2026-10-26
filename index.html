@@ -2205,8 +2205,8 @@
         } catch (e) {}
       }
 
-      // Auto-load PDF if available (priority: presentation.pdf -> eloadas.pdf -> minta_prezentacio.pdf)
-      const pdfCandidates = ['presentation.pdf', 'eloadas.pdf', 'minta_prezentacio.pdf'];
+      // Auto-load PDF if available (priority: AI.pdf -> presentation.pdf -> eloadas.pdf -> minta_prezentacio.pdf)
+      const pdfCandidates = ['AI.pdf', 'Ai.pdf', 'presentation.pdf', 'eloadas.pdf', 'minta_prezentacio.pdf'];
       for (const candidate of pdfCandidates) {
         try {
           const pdfRes = await fetch(candidate);
