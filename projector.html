@@ -87,6 +87,30 @@
     .blank-overlay.active {
       display: block;
     }
+    .fullscreen-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(8px);
+      color: #f1f5f9;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 150;
+      transition: opacity 0.3s, background 0.2s;
+      opacity: 0;
+    }
+    body:hover .fullscreen-btn {
+      opacity: 1;
+    }
+    .fullscreen-btn:hover {
+      background: rgba(30, 41, 59, 0.95);
+      border-color: #3b82f6;
+    }
     .fullscreen-hint {
       position: absolute;
       bottom: 12px;
@@ -108,6 +132,7 @@
 </head>
 <body>
   <div id="container">
+    <button id="fsBtn" class="fullscreen-btn" onclick="toggleFullscreen()">Teljes képernyő</button>
     <div id="fallback" class="fallback-card">
       <div id="slideBadge" class="slide-badge">1. Dia</div>
       <h1 id="slideTitle" class="slide-title">Prezentáció készenlétben</h1>
@@ -131,18 +156,44 @@
     const slideTitle = document.getElementById('slideTitle');
     const presTitle = document.getElementById('presTitle');
     const blankOverlay = document.getElementById('blankOverlay');
+    const fsBtn = document.getElementById('fsBtn');
 
     let pdfDoc = null;
     let currentSlide = 1;
     let currentRenderTask = null;
+    let fsHideTimer = null;
 
-    // Fullscreen on double click
-    document.addEventListener('dblclick', () => {
+    // Fullscreen handling
+    function toggleFullscreen() {
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().catch(() => {});
       } else {
         document.exitFullscreen().catch(() => {});
       }
+    }
+
+    document.addEventListener('fullscreenchange', () => {
+      if (document.fullscreenElement) {
+        fsBtn.textContent = 'Kilépés a teljes képernyőből';
+      } else {
+        fsBtn.textContent = 'Teljes képernyő';
+        fsBtn.style.opacity = '1';
+      }
+    });
+
+    document.addEventListener('mousemove', () => {
+      fsBtn.style.opacity = '1';
+      clearTimeout(fsHideTimer);
+      fsHideTimer = setTimeout(() => {
+        if (document.fullscreenElement) {
+          fsBtn.style.opacity = '0';
+        }
+      }, 3000);
+    });
+
+    // Fullscreen on double click
+    document.addEventListener('dblclick', () => {
+      toggleFullscreen();
     });
 
     async function renderPage(pageNum) {

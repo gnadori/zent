@@ -941,13 +941,13 @@
   <!-- HEADER -->
   <header>
     <div class="brand">
-      <span>⏱️ Zent Presenter</span>
+      <span>Zent Presenter</span>
       <span class="brand-badge">Szekció & Dia Pacer</span>
     </div>
 
     <div class="nav-tabs">
-      <button id="tabPresenter" class="tab-btn active" onclick="switchView('presenter')">📺 Előadói nézet</button>
-      <button id="tabEditor" class="tab-btn" onclick="switchView('editor')">📝 Forgatókönyv Szerkesztő</button>
+      <button id="tabPresenter" class="tab-btn active" onclick="switchView('presenter')">Előadói nézet</button>
+      <button id="tabEditor" class="tab-btn" onclick="switchView('editor')">Forgatókönyv Szerkesztő</button>
     </div>
 
     <div class="header-actions">
@@ -960,7 +960,7 @@
         <span id="projectorStatusText">Kivetítő nincs csatlakoztatva</span>
       </div>
       <button class="btn btn-primary" onclick="openProjectorWindow()">
-        🖥️ Kivetítő ablak
+        Kivetítő ablak
       </button>
     </div>
   </header>
@@ -996,7 +996,7 @@
               <div style="display: flex; align-items: center; gap: 14px;">
                 <div class="timer-clock green" id="sectionClock">04:00</div>
                 <button id="timerClockPlayBtn" class="btn btn-success" style="font-size: 0.95rem; padding: 8px 14px; border-radius: 8px;" onclick="togglePause()" title="Időzítő indítása vagy szüneteltetése (P)">
-                  ▶️ Indítás
+                  Indítás
                 </button>
               </div>
               <div id="timerStatusPill" class="timer-status-text green">KÉSZENLÉTBEN (SZÜNET)</div>
@@ -1042,22 +1042,22 @@
           <div class="nav-bar">
             <div class="step-buttons">
               <button class="btn btn-secondary big-nav-btn" onclick="prevStep()" title="Előző idézet vagy dia (Page Up / Balra nyíl)">
-                ⬅️ Előző
+                Előző
               </button>
               <button class="btn btn-primary big-nav-btn" onclick="nextStep()" title="Következő idézet vagy dia (Page Down / Jobbra nyíl / Szóköz)">
-                Következő ➡️
+                Következő
               </button>
             </div>
 
             <div style="display: flex; gap: 8px;">
               <button id="btnPause" class="btn btn-success" onclick="togglePause()" title="Időzítő indítása vagy szüneteltetése (P)">
-                ▶️ Indítás
+                Indítás
               </button>
               <button class="btn btn-secondary" onclick="resetSectionTimer()" title="Szakasz időzítő újraindítása (R)">
-                🔄 Újra
+                Újra
               </button>
               <button id="btnBlank" class="btn btn-secondary" onclick="toggleBlank()" title="Kivetítő elsötétítése (B)">
-                ⬛ Fekete kép
+                Fekete kép
               </button>
             </div>
           </div>
@@ -1119,19 +1119,20 @@
         <!-- Eszköztár -->
         <div class="editor-toolbar">
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button class="btn btn-primary" onclick="exportJsonFile()">💾 JSON letöltése</button>
-            <button class="btn btn-secondary" onclick="document.getElementById('jsonFileInput').click()">📂 JSON betöltése</button>
+            <button class="btn btn-primary" onclick="exportJsonFile()">JSON letöltése</button>
+            <button class="btn btn-secondary" onclick="document.getElementById('jsonFileInput').click()">JSON betöltése</button>
             <input type="file" id="jsonFileInput" accept=".json" style="display: none;" onchange="importJsonFile(event)">
             
-            <button class="btn btn-secondary" onclick="document.getElementById('pdfFileInput').click()">📄 PDF csatolása</button>
+            <button class="btn btn-secondary" onclick="document.getElementById('pdfFileInput').click()">PDF csatolása</button>
             <input type="file" id="pdfFileInput" accept="application/pdf" style="display: none;" onchange="handlePdfUpload(event)">
             
-            <button class="btn btn-secondary" onclick="loadSampleData()">✨ Minta betöltése</button>
-            <button class="btn btn-secondary" onclick="createNewEmptyPresentation()">🆕 Új üres forgatókönyv</button>
+            <button class="btn btn-secondary" onclick="renumberAllSlidesSequentially()" title="Az összes dia automatikus újraszámozása sorban 1-től N-ig">Sorszámok rendezése (1..N)</button>
+            <button class="btn btn-secondary" onclick="loadSampleData()">Minta betöltése</button>
+            <button class="btn btn-secondary" onclick="createNewEmptyPresentation()">Új üres forgatókönyv</button>
           </div>
           <div>
-            <button class="btn btn-secondary" onclick="openRawJsonModal()">📋 Nyers JSON</button>
-            <button class="btn btn-success" onclick="switchView('presenter')">▶️ Prezentáció indítása</button>
+            <button class="btn btn-secondary" onclick="openRawJsonModal()">Nyers JSON</button>
+            <button class="btn btn-success" onclick="switchView('presenter')">Prezentáció indítása</button>
           </div>
         </div>
 
@@ -1157,7 +1158,7 @@
         <!-- Új szekció hozzáadása -->
         <div style="text-align: center; margin-top: 10px;">
           <button class="btn btn-secondary" style="padding: 14px 28px; font-size: 1.05rem;" onclick="addNewSection()">
-            ➕ Új Szekció hozzáadása
+            + Új Szekció hozzáadása
           </button>
         </div>
       </div>
@@ -1169,7 +1170,7 @@
     <div class="modal-box">
       <div class="modal-header">
         <span>Nyers JSON szerkesztése / Másolása</span>
-        <button class="btn-icon" onclick="closeRawJsonModal()">✕</button>
+        <button class="btn-icon" onclick="closeRawJsonModal()" title="Bezárás">&times;</button>
       </div>
       <div class="modal-body">
         <textarea id="rawJsonTextarea" style="width: 100%; height: 420px; font-family: monospace; font-size: 0.85rem;"></textarea>
@@ -1305,12 +1306,12 @@
       const clockBtn = document.getElementById('timerClockPlayBtn');
       if (btn) {
         if (isPaused) {
-          btn.innerHTML = '▶️ Indítás';
+          btn.innerHTML = 'Indítás';
           btn.classList.add('btn-success');
           btn.classList.remove('btn-secondary');
           btn.title = "Időzítő elindítása (P)";
         } else {
-          btn.innerHTML = '⏸️ Szünet';
+          btn.innerHTML = 'Szünet';
           btn.classList.remove('btn-success');
           btn.classList.add('btn-secondary');
           btn.title = "Időzítő szüneteltetése (P)";
@@ -1318,11 +1319,11 @@
       }
       if (clockBtn) {
         if (isPaused) {
-          clockBtn.innerHTML = '▶️ Indítás';
+          clockBtn.innerHTML = 'Indítás';
           clockBtn.classList.add('btn-success');
           clockBtn.classList.remove('btn-secondary');
         } else {
-          clockBtn.innerHTML = '⏸️ Szünet';
+          clockBtn.innerHTML = 'Szünet';
           clockBtn.classList.remove('btn-success');
           clockBtn.classList.add('btn-secondary');
         }
@@ -1345,10 +1346,10 @@
       const btn = document.getElementById('btnBlank');
       if (isBlank) {
         btn.classList.add('btn-danger');
-        btn.innerHTML = '☀️ Visszaállítás';
+        btn.innerHTML = 'Kép visszaállítása';
       } else {
         btn.classList.remove('btn-danger');
-        btn.innerHTML = '⬛ Fekete kép';
+        btn.innerHTML = 'Fekete kép';
       }
       syncToProjector();
     }
@@ -1906,10 +1907,10 @@
         actionGroup.style.display = 'flex';
         actionGroup.style.gap = '6px';
         actionGroup.innerHTML = `
-          <button class="btn-icon" title="Szekció fel" onclick="moveSection(${sIdx}, -1)" ${sIdx === 0 ? 'disabled' : ''}>⬆️</button>
-          <button class="btn-icon" title="Szekció le" onclick="moveSection(${sIdx}, 1)" ${sIdx === presentation.sections.length - 1 ? 'disabled' : ''}>⬇️</button>
-          <button class="btn-icon" title="Szekció másolása" onclick="duplicateSection(${sIdx})">📋</button>
-          <button class="btn-icon" title="Szekció törlése" style="color: var(--red);" onclick="deleteSection(${sIdx})">🗑️</button>
+          <button class="btn-icon" title="Szekció fel" onclick="moveSection(${sIdx}, -1)" ${sIdx === 0 ? 'disabled' : ''}>↑</button>
+          <button class="btn-icon" title="Szekció le" onclick="moveSection(${sIdx}, 1)" ${sIdx === presentation.sections.length - 1 ? 'disabled' : ''}>↓</button>
+          <button class="btn btn-secondary" style="font-size: 0.75rem; padding: 3px 8px;" title="Szekció másolása" onclick="duplicateSection(${sIdx})">Másolás</button>
+          <button class="btn btn-secondary" style="font-size: 0.75rem; padding: 3px 8px; color: var(--red); border-color: rgba(239, 68, 68, 0.4);" title="Szekció törlése" onclick="deleteSection(${sIdx})">Törlés</button>
         `;
         header.appendChild(actionGroup);
         card.appendChild(header);
@@ -1950,9 +1951,10 @@
           slideActions.style.display = 'flex';
           slideActions.style.gap = '4px';
           slideActions.innerHTML = `
-            <button class="btn-icon" title="Dia fel a szekcióban" onclick="moveSlide(${sIdx}, ${slIdx}, -1)" ${slIdx === 0 ? 'disabled' : ''}>▲</button>
-            <button class="btn-icon" title="Dia le a szekcióban" onclick="moveSlide(${sIdx}, ${slIdx}, 1)" ${slIdx === (sec.slides.length - 1) ? 'disabled' : ''}>▼</button>
-            <button class="btn-icon" title="Dia törlése" style="color: var(--red);" onclick="deleteSlide(${sIdx}, ${slIdx})">✕</button>
+            <button class="btn btn-secondary" style="font-size: 0.75rem; padding: 3px 8px;" title="Új dia beszúrása ezután, és az utána lévő diák sorszámának növelése (+1)" onclick="insertSlideAfterWithShift(${sIdx}, ${slIdx})">+ Beszúrás (+1)</button>
+            <button class="btn-icon" title="Dia fel a szekcióban" onclick="moveSlide(${sIdx}, ${slIdx}, -1)" ${slIdx === 0 ? 'disabled' : ''}>↑</button>
+            <button class="btn-icon" title="Dia le a szekcióban" onclick="moveSlide(${sIdx}, ${slIdx}, 1)" ${slIdx === (sec.slides.length - 1) ? 'disabled' : ''}>↓</button>
+            <button class="btn btn-secondary" style="font-size: 0.75rem; padding: 3px 8px; color: var(--red); border-color: rgba(239, 68, 68, 0.4);" title="Dia törlése" onclick="deleteSlide(${sIdx}, ${slIdx})">Törlés</button>
           `;
           slideHeader.appendChild(slideActions);
           slideCard.appendChild(slideHeader);
@@ -2009,9 +2011,9 @@
             cueActions.style.display = 'flex';
             cueActions.style.gap = '4px';
             cueActions.innerHTML = `
-              <button class="btn-icon" title="Fel" onclick="moveCue(${sIdx}, ${slIdx}, ${cIdx}, -1)" ${cIdx === 0 ? 'disabled' : ''}>▲</button>
-              <button class="btn-icon" title="Le" onclick="moveCue(${sIdx}, ${slIdx}, ${cIdx}, 1)" ${cIdx === (slide.cues.length - 1) ? 'disabled' : ''}>▼</button>
-              <button class="btn-icon" title="Törlés" style="color: var(--red);" onclick="deleteCue(${sIdx}, ${slIdx}, ${cIdx})">✕</button>
+              <button class="btn-icon" title="Fel" onclick="moveCue(${sIdx}, ${slIdx}, ${cIdx}, -1)" ${cIdx === 0 ? 'disabled' : ''}>↑</button>
+              <button class="btn-icon" title="Le" onclick="moveCue(${sIdx}, ${slIdx}, ${cIdx}, 1)" ${cIdx === (slide.cues.length - 1) ? 'disabled' : ''}>↓</button>
+              <button class="btn btn-secondary" style="font-size: 0.75rem; padding: 2px 6px; color: var(--red); border-color: rgba(239, 68, 68, 0.4);" title="Törlés" onclick="deleteCue(${sIdx}, ${slIdx}, ${cIdx})">Törlés</button>
             `;
             row.appendChild(cueActions);
             cuesBox.appendChild(row);
@@ -2021,7 +2023,7 @@
           addCueBtn.className = 'btn btn-secondary';
           addCueBtn.style.alignSelf = 'flex-start';
           addCueBtn.style.fontSize = '0.8rem';
-          addCueBtn.innerHTML = '➕ Új idézet ehhez a diához';
+          addCueBtn.innerHTML = '+ Új idézet ehhez a diához';
           addCueBtn.onclick = () => addCue(sIdx, slIdx);
 
           cuesColumn.appendChild(cuesBox);
@@ -2038,8 +2040,9 @@
         addSlideBtn.style.alignSelf = 'flex-start';
         addSlideBtn.style.marginLeft = '14px';
         addSlideBtn.style.fontSize = '0.85rem';
-        addSlideBtn.innerHTML = `➕ Új dia hozzáadása a(z) ${sIdx + 1}. szekcióhoz`;
+        addSlideBtn.innerHTML = `+ Új dia hozzáadása a(z) ${sIdx + 1}. szekcióhoz`;
         addSlideBtn.onclick = () => addNewSlideToSection(sIdx);
+        slidesContainer.appendChild(addSlideBtn);
         slidesContainer.appendChild(addSlideBtn);
 
         card.appendChild(slidesContainer);
@@ -2207,6 +2210,43 @@
         presentation.sections[sIdx].slides.splice(slIdx, 1);
         renderEditor();
       }
+    }
+
+    function insertSlideAfterWithShift(sIdx, slIdx) {
+      const currentSlide = presentation.sections[sIdx].slides[slIdx];
+      const curNum = parseInt(currentSlide.slide, 10) || (slIdx + 1);
+      const newNum = curNum + 1;
+
+      // Minden olyan dia sorszámát megnöveljük +1-gyel az egész prezentációban,
+      // amely a beszúrási pont után következik (sorszáma >= newNum)
+      presentation.sections.forEach(sec => {
+        (sec.slides || []).forEach(sl => {
+          const n = parseInt(sl.slide, 10);
+          if (!isNaN(n) && n >= newNum) {
+            sl.slide = n + 1;
+          }
+        });
+      });
+
+      // Beszúrjuk az új diát közvetlenül a jelenlegi mögé
+      presentation.sections[sIdx].slides.splice(slIdx + 1, 0, {
+        slide: newNum,
+        title: `Új dia (${newNum}.)`,
+        cues: ["Első idézet vagy vázlatpont..."]
+      });
+
+      renderEditor();
+    }
+
+    function renumberAllSlidesSequentially() {
+      if (!confirm("Biztosan újraszámozod az összes diát szekciónként sorban (1, 2, 3...)?")) return;
+      let counter = 1;
+      presentation.sections.forEach(sec => {
+        (sec.slides || []).forEach(sl => {
+          sl.slide = counter++;
+        });
+      });
+      renderEditor();
     }
 
     function addNewSection() {
@@ -2440,7 +2480,7 @@
         } catch (e) {}
       } else {
         try {
-          const res = await fetch('sample_presentation.json');
+          const res = await fetch('sample_presentation.json?t=' + Date.now());
           if (res.ok) {
             const data = await res.json();
             presentation = normalizePresentation(data);
@@ -2452,7 +2492,7 @@
       const pdfCandidates = ['AI.pdf', 'Ai.pdf', 'presentation.pdf', 'eloadas.pdf', 'minta_prezentacio.pdf'];
       for (const candidate of pdfCandidates) {
         try {
-          const pdfRes = await fetch(candidate);
+          const pdfRes = await fetch(candidate + '?t=' + Date.now());
           if (pdfRes.ok) {
             const ab = await pdfRes.arrayBuffer();
             pdfRawData = ab.slice(0);
