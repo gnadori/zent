@@ -993,8 +993,13 @@
             </div>
 
             <div class="timer-main-row">
-              <div class="timer-clock green" id="sectionClock">04:00</div>
-              <div id="timerStatusPill" class="timer-status-text green">SZEKCIÓBÓL HÁTRA</div>
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <div class="timer-clock green" id="sectionClock">04:00</div>
+                <button id="timerClockPlayBtn" class="btn btn-success" style="font-size: 0.95rem; padding: 8px 14px; border-radius: 8px;" onclick="togglePause()" title="Időzítő indítása vagy szüneteltetése (P)">
+                  ▶️ Indítás
+                </button>
+              </div>
+              <div id="timerStatusPill" class="timer-status-text green">KÉSZENLÉTBEN (SZÜNET)</div>
             </div>
 
             <div class="progress-track">
@@ -1045,8 +1050,8 @@
             </div>
 
             <div style="display: flex; gap: 8px;">
-              <button id="btnPause" class="btn btn-secondary" onclick="togglePause()">
-                ⏸️ Szünet
+              <button id="btnPause" class="btn btn-success" onclick="togglePause()" title="Időzítő indítása vagy szüneteltetése (P)">
+                ▶️ Indítás
               </button>
               <button class="btn btn-secondary" onclick="resetSectionTimer()" title="Szakasz időzítő újraindítása (R)">
                 🔄 Újra
@@ -1058,11 +1063,12 @@
           </div>
 
           <div class="shortcuts-footer">
-            <span><span class="kbd">PageDown</span> / <span class="kbd">→</span> / <span class="kbd">Szóköz</span> Következő idézet vagy dia</span>
+            <span><span class="kbd">PageDown</span> / <span class="kbd">→</span> / <span class="kbd">Szóköz</span> Következő</span>
             <span><span class="kbd">PageUp</span> / <span class="kbd">←</span> Előző</span>
-            <span><span class="kbd">P</span> Időzítő szünet</span>
+            <span><span class="kbd">↑</span> / <span class="kbd">↓</span> Idézet betűméret</span>
+            <span><span class="kbd">P</span> Időzítő indítás/szünet</span>
             <span><span class="kbd">R</span> Szekció újra</span>
-            <span><span class="kbd">B</span> Kivetítő elsötétítés</span>
+            <span><span class="kbd">B</span> Fekete kép</span>
           </div>
         </div>
 
@@ -1210,7 +1216,7 @@
     let currentSlideIdx = 0;
     let currentCueIdx = 0;
     let fontScale = 1;
-    let isPaused = false;
+    let isPaused = true; // Starts in PAUSE mode by default
     let isBlank = false;
 
     // PDF variables
@@ -1294,18 +1300,39 @@
       }, 1000);
     }
 
+    function updatePauseButtonState() {
+      const btn = document.getElementById('btnPause');
+      const clockBtn = document.getElementById('timerClockPlayBtn');
+      if (btn) {
+        if (isPaused) {
+          btn.innerHTML = '▶️ Indítás';
+          btn.classList.add('btn-success');
+          btn.classList.remove('btn-secondary');
+          btn.title = "Időzítő elindítása (P)";
+        } else {
+          btn.innerHTML = '⏸️ Szünet';
+          btn.classList.remove('btn-success');
+          btn.classList.add('btn-secondary');
+          btn.title = "Időzítő szüneteltetése (P)";
+        }
+      }
+      if (clockBtn) {
+        if (isPaused) {
+          clockBtn.innerHTML = '▶️ Indítás';
+          clockBtn.classList.add('btn-success');
+          clockBtn.classList.remove('btn-secondary');
+        } else {
+          clockBtn.innerHTML = '⏸️ Szünet';
+          clockBtn.classList.remove('btn-success');
+          clockBtn.classList.add('btn-secondary');
+        }
+      }
+    }
+
     function togglePause() {
       isPaused = !isPaused;
-      const btn = document.getElementById('btnPause');
-      if (isPaused) {
-        btn.innerHTML = '▶️ Folytatás';
-        btn.classList.add('btn-primary');
-        btn.classList.remove('btn-secondary');
-      } else {
-        btn.innerHTML = '⏸️ Szünet';
-        btn.classList.remove('btn-primary');
-        btn.classList.add('btn-secondary');
-      }
+      updatePauseButtonState();
+      renderTimer();
     }
 
     function resetSectionTimer() {
@@ -1349,34 +1376,40 @@
       const progressFill = document.getElementById('progressFill');
 
       if (!isOvertime) {
-        // ON TRACK (GREEN)
         timerCard.classList.remove('overtime');
         timerCard.classList.add('on-track');
         clock.classList.remove('red');
         clock.classList.add('green');
         clock.textContent = formatTime(remainingSec);
-
-        statusPill.classList.remove('red');
-        statusPill.classList.add('green');
-        statusPill.textContent = 'SZEKCIÓBÓL HÁTRA';
-
         const pct = Math.max(0, Math.min(100, (remainingSec / targetSec) * 100));
         progressFill.style.width = pct + '%';
         progressFill.classList.remove('overtime');
       } else {
-        // OVERTIME (RED)
         timerCard.classList.remove('on-track');
         timerCard.classList.add('overtime');
         clock.classList.remove('green');
         clock.classList.add('red');
         clock.textContent = `+${formatTime(Math.abs(remainingSec))}`;
+        progressFill.style.width = '100%';
+        progressFill.classList.add('overtime');
+      }
 
+      if (isPaused) {
+        statusPill.style.background = 'rgba(245, 158, 11, 0.2)';
+        statusPill.style.color = '#f59e0b';
+        statusPill.textContent = totalElapsedSeconds === 0 ? 'KÉSZENLÉTBEN (SZÜNET)' : 'SZÜNETELTETVE';
+      } else if (!isOvertime) {
+        statusPill.style.background = '';
+        statusPill.style.color = '';
+        statusPill.classList.remove('red');
+        statusPill.classList.add('green');
+        statusPill.textContent = 'SZEKCIÓBÓL HÁTRA';
+      } else {
+        statusPill.style.background = '';
+        statusPill.style.color = '';
         statusPill.classList.remove('green');
         statusPill.classList.add('red');
         statusPill.textContent = 'SZEKCIÓ IDŐTÚLLÉPÉS!';
-
-        progressFill.style.width = '100%';
-        progressFill.classList.add('overtime');
       }
 
       // Calculate Total presentation elapsed vs target
@@ -1473,6 +1506,12 @@
       } else if (e.key === 'PageUp' || e.key === 'ArrowLeft') {
         e.preventDefault();
         prevStep();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        adjustFontSize(0.15);
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        adjustFontSize(-0.15);
       } else if (e.key === 'p' || e.key === 'P') {
         togglePause();
       } else if (e.key === 'r' || e.key === 'R') {
@@ -1611,8 +1650,11 @@
     }
 
     function adjustFontSize(delta) {
-      fontScale = Math.max(0.7, Math.min(2.0, fontScale + delta));
+      fontScale = Math.max(0.6, Math.min(2.5, fontScale + delta));
       document.documentElement.style.setProperty('--font-scale', fontScale);
+      try {
+        localStorage.setItem('zent_font_scale', fontScale);
+      } catch (e) {}
     }
 
     // ----------------------------------------------------
@@ -2426,8 +2468,15 @@
         } catch (e) {}
       }
 
+      const savedFontScale = localStorage.getItem('zent_font_scale');
+      if (savedFontScale) {
+        fontScale = parseFloat(savedFontScale) || 1;
+        document.documentElement.style.setProperty('--font-scale', fontScale);
+      }
+
       renderEditor();
       updatePresenterUI();
+      updatePauseButtonState();
       startTimer();
       requestWakeLock();
     });
