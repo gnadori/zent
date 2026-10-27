@@ -34,6 +34,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
     }
 
     /* Header Nav */
@@ -173,10 +174,13 @@
       max-width: 1600px;
       margin: 0 auto;
       width: 100%;
+      min-width: 0;
     }
 
     .view-container {
       display: none;
+      min-width: 0;
+      width: 100%;
     }
     .view-container.active {
       display: block;
@@ -187,14 +191,14 @@
        =================================================== */
     .presenter-grid {
       display: grid;
-      grid-template-columns: 1fr 340px;
+      grid-template-columns: minmax(0, 1fr) 340px;
       gap: 20px;
       min-height: calc(100vh - 120px);
     }
 
     @media (max-width: 1100px) {
       .presenter-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
       }
     }
 
@@ -203,6 +207,8 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
+      min-width: 0;
+      max-width: 100%;
     }
 
     /* Section Timer Card */
@@ -214,6 +220,8 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
+      min-width: 0;
+      max-width: 100%;
     }
 
     .timer-card.on-track {
@@ -411,6 +419,10 @@
       min-height: 160px;
       display: flex;
       align-items: center;
+      min-width: 0;
+      max-width: 100%;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
     .active-quote-text {
@@ -419,6 +431,9 @@
       line-height: 1.35;
       color: #ffffff;
       transition: font-size 0.2s;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      max-width: 100%;
     }
 
     /* Block Timeline / All Cues on current slide */
@@ -429,6 +444,8 @@
       gap: 8px;
       padding-top: 16px;
       border-top: 1px dashed var(--card-border);
+      min-width: 0;
+      max-width: 100%;
     }
 
     .cue-pill {
@@ -441,6 +458,8 @@
       color: var(--text-muted);
       background: #0f172a;
       border: 1px solid transparent;
+      min-width: 0;
+      max-width: 100%;
     }
 
     .cue-pill.done {
@@ -460,6 +479,7 @@
       height: 8px;
       border-radius: 50%;
       background: #475569;
+      flex-shrink: 0;
     }
     .cue-pill.current .cue-dot {
       background: var(--primary);
@@ -475,6 +495,9 @@
       border-radius: 10px;
       padding: 12px 16px;
       border-left: 4px solid var(--primary);
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
     }
 
     .next-label {
@@ -492,6 +515,8 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      min-width: 0;
+      max-width: 100%;
     }
 
     /* Navigation Controls Bar */
@@ -740,6 +765,84 @@
     input:focus, textarea:focus {
       outline: none;
       border-color: var(--primary);
+    }
+
+    /* Fixed Time & Number Inputs */
+    .time-num-input {
+      width: 76px !important;
+      padding: 6px 6px !important;
+      text-align: center !important;
+      font-weight: 800 !important;
+      font-size: 1rem !important;
+      border-radius: 8px !important;
+      background: #0b0f19 !important;
+      color: #38bdf8 !important;
+      border: 1px solid #334155 !important;
+      box-sizing: border-box !important;
+    }
+
+    .time-group-container {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      background: #0f172a;
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid #1e293b;
+    }
+
+    /* Slide Layout with Thumbnail */
+    .slide-body-grid {
+      display: grid;
+      grid-template-columns: 140px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .slide-body-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .editor-thumb-box {
+      width: 140px;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .editor-thumb-box:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+      transform: scale(1.02);
+    }
+
+    .editor-thumb-box canvas {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .editor-thumb-placeholder {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #64748b;
+      text-align: center;
+      padding: 6px;
+      user-select: none;
     }
 
     .slide-cues-editor {
@@ -1435,6 +1538,8 @@
         txt.style.overflow = 'hidden';
         txt.style.textOverflow = 'ellipsis';
         txt.style.whiteSpace = 'nowrap';
+        txt.style.minWidth = '0';
+        txt.style.flex = '1';
         item.appendChild(txt);
 
         cuesListContainer.appendChild(item);
@@ -1642,6 +1747,7 @@
         const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
         pdfDoc = await loadingTask.promise;
         renderSlidePreviews();
+        renderAllEditorThumbs();
         syncToProjector();
       }
     }
@@ -1741,11 +1847,13 @@
         const curMins = Math.floor((sec.target_seconds || 300) / 60);
         const curSecs = (sec.target_seconds || 300) % 60;
         const timeGroup = document.createElement('div');
-        timeGroup.className = 'input-group';
+        timeGroup.className = 'time-group-container';
         timeGroup.innerHTML = `
-          <label>Tervezett idő:</label>
-          <input type="number" min="0" value="${curMins}" style="width: 55px;" title="Perc" onchange="updateSectionDuration(${sIdx}, parseInt(this.value), null)"> p
-          <input type="number" min="0" max="59" value="${curSecs}" style="width: 55px;" title="Másodperc" onchange="updateSectionDuration(${sIdx}, null, parseInt(this.value))"> mp
+          <label style="margin-right: 4px;">Tervezett idő:</label>
+          <input type="number" class="time-num-input" min="0" value="${curMins}" title="Perc" onchange="updateSectionDuration(${sIdx}, parseInt(this.value), null)">
+          <span style="font-weight: 700; color: #94a3b8; font-size: 0.85rem;">p</span>
+          <input type="number" class="time-num-input" min="0" max="59" value="${curSecs}" title="Másodperc" onchange="updateSectionDuration(${sIdx}, null, parseInt(this.value))">
+          <span style="font-weight: 700; color: #94a3b8; font-size: 0.85rem;">mp</span>
         `;
         leftGroup.appendChild(timeGroup);
 
@@ -1768,7 +1876,7 @@
         const slidesContainer = document.createElement('div');
         slidesContainer.style.display = 'flex';
         slidesContainer.style.flexDirection = 'column';
-        slidesContainer.style.gap = '12px';
+        slidesContainer.style.gap = '14px';
 
         (sec.slides || []).forEach((slide, slIdx) => {
           const slideCard = document.createElement('div');
@@ -1785,13 +1893,13 @@
           slideInfo.style.flexWrap = 'wrap';
 
           slideInfo.innerHTML = `
-            <div class="input-group">
+            <div class="input-group" style="white-space: nowrap;">
               <label>Dia:</label>
-              <input type="number" min="1" value="${slide.slide || (slIdx + 1)}" style="width: 60px;" onchange="updateSlideField(${sIdx}, ${slIdx}, 'slide', parseInt(this.value))">
+              <input type="number" class="time-num-input" style="width: 70px !important;" min="1" value="${slide.slide || (slIdx + 1)}" onchange="updateSlideField(${sIdx}, ${slIdx}, 'slide', parseInt(this.value))">
             </div>
-            <div class="input-group">
+            <div class="input-group" style="flex: 1; min-width: 200px;">
               <label>Cím:</label>
-              <input type="text" value="${slide.title || ''}" placeholder="Dia címe" style="width: 240px;" onchange="updateSlideField(${sIdx}, ${slIdx}, 'title', this.value)">
+              <input type="text" value="${slide.title || ''}" placeholder="Dia címe" style="width: 100%; min-width: 180px;" onchange="updateSlideField(${sIdx}, ${slIdx}, 'title', this.value)">
             </div>
           `;
           slideHeader.appendChild(slideInfo);
@@ -1807,7 +1915,32 @@
           slideHeader.appendChild(slideActions);
           slideCard.appendChild(slideHeader);
 
-          // Cues List for this slide
+          // Grid containing thumbnail on the left and cues on the right
+          const slideBodyGrid = document.createElement('div');
+          slideBodyGrid.className = 'slide-body-grid';
+
+          // Mini preview thumbnail box
+          const thumbBox = document.createElement('div');
+          thumbBox.className = 'editor-thumb-box';
+          thumbBox.id = `editorThumbBox_${sIdx}_${slIdx}`;
+          thumbBox.title = `Dia #${slide.slide} előnézete (Kattints az előadói ugráshoz)`;
+          thumbBox.onclick = () => {
+            jumpToSlide(sIdx, slIdx);
+            switchView('presenter');
+          };
+          thumbBox.innerHTML = `
+            <canvas id="editorSlideCanvas_${sIdx}_${slIdx}" style="display: none;"></canvas>
+            <div id="editorSlidePlaceholder_${sIdx}_${slIdx}" class="editor-thumb-placeholder">${slide.slide || (slIdx + 1)}. Dia</div>
+          `;
+          slideBodyGrid.appendChild(thumbBox);
+
+          // Cues List column
+          const cuesColumn = document.createElement('div');
+          cuesColumn.style.minWidth = '0';
+          cuesColumn.style.display = 'flex';
+          cuesColumn.style.flexDirection = 'column';
+          cuesColumn.style.gap = '8px';
+
           const cuesBox = document.createElement('div');
           cuesBox.className = 'slide-cues-editor';
 
@@ -1848,9 +1981,12 @@
           addCueBtn.style.fontSize = '0.8rem';
           addCueBtn.innerHTML = '➕ Új idézet ehhez a diához';
           addCueBtn.onclick = () => addCue(sIdx, slIdx);
-          cuesBox.appendChild(addCueBtn);
 
-          slideCard.appendChild(cuesBox);
+          cuesColumn.appendChild(cuesBox);
+          cuesColumn.appendChild(addCueBtn);
+
+          slideBodyGrid.appendChild(cuesColumn);
+          slideCard.appendChild(slideBodyGrid);
           slidesContainer.appendChild(slideCard);
         });
 
@@ -1871,6 +2007,7 @@
       document.getElementById('totalSectionsCountLabel').textContent = `${presentation.sections.length} db`;
       document.getElementById('totalSlidesCountLabel').textContent = `${totalSlidesCount} db`;
       document.getElementById('totalPlannedTimeLabel').textContent = formatTime(totalSec);
+      renderAllEditorThumbs();
     }
 
     function updatePresTitle(val) {
@@ -1896,6 +2033,69 @@
     function updateSlideField(sIdx, slIdx, field, val) {
       presentation.sections[sIdx].slides[slIdx][field] = val;
       saveToStorage();
+      if (field === 'slide') {
+        renderEditorSlideThumb(sIdx, slIdx, val);
+        renderAgendaList();
+      }
+    }
+
+    let editorThumbTasks = {};
+
+    async function renderEditorSlideThumb(sIdx, slIdx, pageNum) {
+      const canvasId = `editorSlideCanvas_${sIdx}_${slIdx}`;
+      const placeholderId = `editorSlidePlaceholder_${sIdx}_${slIdx}`;
+      const canvas = document.getElementById(canvasId);
+      const placeholder = document.getElementById(placeholderId);
+      if (!canvas) return;
+
+      pageNum = parseInt(pageNum, 10);
+      if (!pdfDoc || isNaN(pageNum) || pageNum < 1 || pageNum > pdfDoc.numPages) {
+        canvas.style.display = 'none';
+        if (placeholder) {
+          placeholder.style.display = 'flex';
+          placeholder.textContent = `${pageNum || (slIdx + 1)}. Dia`;
+        }
+        return;
+      }
+
+      if (editorThumbTasks[canvasId]) {
+        try {
+          editorThumbTasks[canvasId].cancel();
+        } catch (e) {}
+        editorThumbTasks[canvasId] = null;
+      }
+
+      try {
+        const page = await pdfDoc.getPage(pageNum);
+        const ctx = canvas.getContext('2d');
+        const targetWidth = 140;
+        const unscaled = page.getViewport({ scale: 1.0 });
+        const scale = targetWidth / unscaled.width;
+        const viewport = page.getViewport({ scale: scale });
+
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
+        canvas.style.display = 'block';
+        if (placeholder) placeholder.style.display = 'none';
+
+        const task = page.render({ canvasContext: ctx, viewport: viewport });
+        editorThumbTasks[canvasId] = task;
+        await task.promise;
+        editorThumbTasks[canvasId] = null;
+      } catch (err) {
+        if (err.name !== 'RenderingCancelledException') {
+          console.error("Editor thumb render hiba:", err);
+        }
+      }
+    }
+
+    async function renderAllEditorThumbs() {
+      if (!pdfDoc) return;
+      presentation.sections.forEach((sec, sIdx) => {
+        (sec.slides || []).forEach((slide, slIdx) => {
+          renderEditorSlideThumb(sIdx, slIdx, slide.slide || (slIdx + 1));
+        });
+      });
     }
 
     function updateCueText(sIdx, slIdx, cIdx, text) {
@@ -2182,6 +2382,7 @@
         syncToProjector();
       } else {
         renderEditor();
+        renderAllEditorThumbs();
       }
     }
 
@@ -2218,6 +2419,7 @@
               pdfDoc = await loadingTask.promise;
               document.getElementById('pdfStatusLabel').textContent = candidate;
               renderSlidePreviews();
+              renderAllEditorThumbs();
               break;
             }
           }
