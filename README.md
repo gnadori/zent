@@ -1,4 +1,4 @@
-# Zent Presenter & Pacer
+# Zent előadó szoftver
 
 Kétképernyős, professzionális prezentációs segédprogram és intelligens súgógép (teleprompter) szekció alapú időgazdálkodással és beépített forgatókönyv-szerkesztővel.
 
